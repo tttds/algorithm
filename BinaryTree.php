@@ -1,3 +1,4 @@
+<?php
 class Node {
   public $data;
   public $leftNode;
