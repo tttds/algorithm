@@ -1,4 +1,20 @@
 <?php
+  
+function factorize($n){
+  $res = [];
+  for($i=2; $i*$i<$n; $i++){
+    if($n % $i != 0) continue;
+    $res[$i]=0;
+    while($n % $i == 0){      
+      $res[$i]++;
+      $n /= $i;
+    }
+  }
+  if($n != 1){
+    $res[$n]=0;
+  }
+  return $res;
+}
 
   //$pn = new PrimeNumber();
   //var_dump($pn->primeFactorization(1000000));
