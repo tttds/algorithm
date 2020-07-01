@@ -45,3 +45,24 @@ function combination($n, $a, $m)
     $y=repeatSqrt($y, $m-2, $m);
     return ($x*$y)%$m;
 }
+
+/**
+ * mod Pの世界での組み合わせ(nCa)
+ * @param $n 全体の数
+ * @param $a 選択する数
+ * @param $m 素数
+ * @param $factorial 処理済みの階乗
+ */
+function combination2($n, $a, $m, $factorial)
+{
+    $x=$factorial[$n]; // bunbo
+    $y=$factorial[$a]*$factorial[$n-$a]%$m; // bunshi
+
+    // フェルマーの小定理 
+    // Y^(P-1)≡1 (mod P) より
+    // Y^(P-2)≡1/Y (mod P)
+    // つまり
+    // $x / $y = $x * $y^($m-2) (mod P)
+    $y=repeatSqrt($y, $m-2, $m);
+    return ($x*$y)%$m;
+}
