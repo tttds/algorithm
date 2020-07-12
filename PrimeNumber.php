@@ -2,7 +2,7 @@
   
 function factorize($n){
   $res = [];
-  for($i=2; $i*$i<$n; $i++){
+  for($i=2; $i*$i<=$n; $i++){
     if($n % $i != 0) continue;
     $res[$i]=0;
     while($n % $i == 0){      
@@ -11,7 +11,7 @@ function factorize($n){
     }
   }
   if($n != 1){
-    $res[$n]=0;
+    $res[$n]=1;
   }
   return $res;
 }
