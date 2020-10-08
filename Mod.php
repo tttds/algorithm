@@ -66,3 +66,10 @@ function combination2($n, $a, $m, $factorial)
     $y=repeatSqrt($y, $m-2, $m);
     return ($x*$y)%$m;
 }
+function getFactorial($n, $mod){
+  $factorial=[1];
+  for($i=1;$i<=$n;$i++){
+    $factorial[$i]=$factorial[$i-1]*$i%$mod;
+  }
+  return $factorial;
+}
