@@ -53,3 +53,38 @@ class SegTree {
   }
 
 }
+
+
+//-----------------------------------------
+// ↓　whileで少し高速な方法
+//-----------------------------------------
+  $N=1;
+  while ($N < 300010) {
+    $N *= 2;
+  }
+  $tree=array_fill(0, $N*2-1, 0);
+ 
+  function update($i, $value){
+    global $tree, $N;
+    $i = $N + $i - 1;
+    $tree[$i] = $value;
+    while ($i > 0) {
+      $i = ($i - 1) >> 1;
+      $x = $i << 1;
+      $tree[$i] = max($tree[$x + 1], $tree[$x+ 2]);
+    }
+  }
+ 
+  function sub_query($a, $b, $k, $l, $r){
+    global $tree;
+    if($r <= $a || $b <= $l) return 0;
+ 
+    if($a <= $l && $r <= $b) return $tree[$k];
+ 
+    $mid = ($l+$r) >> 1;
+    $x=$k<<1;
+    $lv = sub_query($a, $b, $x+1, $l, $mid);
+    $rv = sub_query($a, $b, $x+2, $mid, $r);
+    return max($lv, $rv);
+  }
+ 
