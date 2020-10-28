@@ -7,10 +7,8 @@
  * @param $m 素数
  */
 function repeatSqrt($b, $p, $m){
-  if($p==1)
-  {
-    return $b;
-  }
+  if($p==0) return 1;
+  if($p==1) return $b;
   else if($p%2 == 0)
   {
     $t = repeatSqrt($b, floor($p/2), $m);
