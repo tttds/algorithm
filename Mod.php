@@ -11,7 +11,7 @@ function repeatSqrt($b, $p, $m){
   if($p==1) return $b;
   else if($p%2 == 0)
   {
-    $t = repeatSqrt($b, floor($p/2), $m);
+    $t = repeatSqrt($b, intdiv($p,2), $m);
     return ($t * $t) % $m;
   }
   else
