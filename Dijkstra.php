@@ -34,8 +34,10 @@
     var_dump($d->cheapest);
 
 
+
     class Dijkstra {
         public $route;
+        // 到達できない場合はPHP_INT_MAXが入っている
         public $cheapest;
         public $n;
 
@@ -44,39 +46,49 @@
         //    $iから$jまでのコストが$cost
         // $n 件数
         function __construct(&$route, $n){
-            $this->route = $route;
+            $this->route =& $route;
             $this->n = $n;
         }
-        
+
         // $iから各点の距離を計算
         // $root ルートノード
         // $rootCost ルートノードに到達するまでのコスト
         //           基本的に0だが、自分に戻ってくる問題などはPHP_INT_MAXにしておく
         function calc($root){
-            $this->cheapest = [];
-            for($i=1;$i<=$this->n;$i++){
-                $this->cheapest[$i]=PHP_INT_MAX;
-            }
-            $heap = new SplMinHeap();
-            $heap->insert([0,$root]);
-            $this->cheapest[$root]=0;
-            $first=true;
-            while(!$heap->isEmpty()){
-                [$currentCost,$current]=$heap->extract();
-                if(!isset($this->route[$current])) continue;
 
-                foreach($this->route[$current] as $next => $nextCost){
-                    $nextCostFromRoot = $currentCost + $nextCost;
-                    if($this->cheapest[$next] > $nextCostFromRoot){
-                        $this->cheapest[$next] = $nextCostFromRoot;
-                        $heap->insert([$nextCostFromRoot, $next]);
+            $cheapest = array_fill(1, $this->n, PHP_INT_MAX);
+            $fix = array_fill(1, $this->n, false);
+
+            // ROOT→次へ
+            if(isset($this->route[$root])) {
+                $heap = new SplPriorityQueue();
+                foreach($this->route[$root] as $next => $nextCost){
+                    $cheapest[$next] = $nextCost;
+                    $heap->insert($next, -$nextCost);
+                }
+                // ROOTからROOTに戻ってくる場合も算出するため
+                $cheapest[$root] = PHP_INT_MAX;
+
+                while($heap->valid()){
+
+                    $current=$heap->extract();
+
+                    if($fix[$current]) continue;
+
+                    $fix[$current] = true;
+
+                    if(isset($this->route[$current])) {
+                        foreach($this->route[$current] as $next => $nextCost){
+                            $nextCostFromRoot = $cheapest[$current] + $nextCost;
+                            if($cheapest[$next] > $nextCostFromRoot){
+                                $cheapest[$next] = $nextCostFromRoot;
+                                $heap->insert($next, -$nextCostFromRoot);
+                            }
+                        }
                     }
                 }
-                if($first){
-                    // ROOTからROOTに戻ってくる場合も算出するため
-                    $this->cheapest[$root] = PHP_INT_MAX;
-                    $first=false;
-                }
             }
+
+            $this->cheapest = $cheapest;
         }
     }
