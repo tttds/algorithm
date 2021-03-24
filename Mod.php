@@ -3,21 +3,11 @@
 /**
  * mod Pの世界での繰り返し二乗法
  * @param $b 基数
- * @param $p 指数
+ * @param $e 指数
  * @param $m 素数
  */
-function repeatSqrt($b, $p, $m){
-  if($p==0) return 1;
-  if($p==1) return $b;
-  else if($p%2 == 0)
-  {
-    $t = repeatSqrt($b, intdiv($p,2), $m);
-    return ($t * $t) % $m;
-  }
-  else
-  {
-    return ($b * repeatSqrt($b, $p-1, $m)) % $m;
-  }
+function repeatSqrt($b, $e, $m){
+  return gmp_powm($b,$e,$m);
 }
 
 /**
