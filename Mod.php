@@ -61,3 +61,22 @@ function getFactorial($n, $mod){
   }
   return $factorial;
 }
+
+$x = "19";
+$y = 19;
+echo strmod($x, $y);
+echo PHP_EOL;
+echo $x % $y;
+
+//-----------------------------
+//
+//-----------------------------
+function strmod($b, $m){
+    $len = strlen($b);
+    $mod = 0;
+    for($i=0;$i<$len-1;$i++){
+        $mod = ($mod + $b[$i])*10 % $m;
+    }
+    $mod = ($mod+$b[$len-1]) % $m;
+    return $mod;
+}
