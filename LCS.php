@@ -1,12 +1,12 @@
 <?php
 
-$s = "avapc";
-$t = "apppvc";
+$s = ["a","v","a","p","c"];
+$t = ["a","p","p","p","v","c"];
 
 echo lcs($s, $t);
 
-$s = "a";
-$t = "a";
+$s = ["a"];
+$t = ["a"];
 echo lcs($s,$t);
 
 /**
@@ -14,8 +14,8 @@ echo lcs($s,$t);
  * $sと$tの長さは違ってもOK
  */
 function lcs($s, $t){
-    $m=strlen($s);
-    $n=strlen($t);
+    $m=count($s);
+    $n=count($t);
 
     for($i=0;$i<=$m;$i++){
         $len[$i][0] = 0;
