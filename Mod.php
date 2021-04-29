@@ -80,3 +80,33 @@ function strmod($b, $m){
     $mod = ($mod+$b[$len-1]) % $m;
     return $mod;
 }
+
+//------------------------------
+// 二項係数の元を求める
+//------------------------------
+// 引数
+// $n 二項係数を求める上限（最大500000程度）
+// $mod 余り
+//------------------------------
+// 戻り値
+// 配列 [$factorial, $ifactorial]
+// $factorial・・階乗
+// $ifactorial・・階乗の逆元 
+//------------------------------
+function getBinomialInit_mod($n, $mod){
+    $factorial = [1,1];
+    $ifactorial = [1,1];
+    $inv = [1,1];
+    for($i=2;$i<=$n;$i++){
+      $factorial[$i] = $factorial[$i-1] * $i % $mod;
+      $inv[$i] = $mod - $inv[$mod%$i] * intdiv($mod, $i) % $mod;
+      $ifactorial[$i] = $ifactorial[$i-1] * $inv[$i] % $mod;
+    }
+    return [$factorial, $ifactorial];
+}
+
+function getBiomial_mod($fact, $ifact, $n, $k){
+  if (n < k) return 0;
+  if (n < 0 || k < 0) return 0;
+  return fac[n] * (finv[k] * finv[n - k] % MOD) % MOD;
+}
