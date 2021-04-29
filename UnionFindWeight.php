@@ -42,12 +42,12 @@
       if($this->size($rx) > $this->size($ry)){
         $this->d[$rx]+= $this->d[$ry];
         $this->d[$ry] = $rx;
-        $this->diffWeight[$y] = $weight;
+        $this->diffWeight[$ry] = $weight;
         //echo $this->d[$rx].PHP_EOL;
       }else{
         $this->d[$ry]+= $this->d[$rx];
         $this->d[$rx] = $ry;        
-        $this->diffWeight[$x] = -$weight;
+        $this->diffWeight[$rx] = -$weight;
         //echo $this->d[$ry].PHP_EOL;
       }
     }
@@ -68,8 +68,9 @@
         return $x;
       }
       //経路圧縮
+      $r = $this->root($this->d[$x]);
       $this->diffWeight[$x] += $this->diffWeight[$this->d[$x]];
-      return $this->d[$x] = $this->root($this->d[$x]);
+      return $this->d[$x] = $r;
     }
     function size($x){
       return $this->d[$this->root($x)]*-1;
