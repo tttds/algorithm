@@ -1,7 +1,7 @@
 <?php
 
 //-----------------------------------------
-// 区間最大用のSegment Tree
+// 区間最大用のLazy Segment Tree
 // 使い方
 // 「書き換える」となっている部分を問題に応じて書き換える
 //-----------------------------------------
@@ -52,6 +52,7 @@
 
   function sub_query($a, $b, $k, $l, $r){
     global $tree;
+    reflect($k,$l,$r);
     if($b <= $l || $r <= $a) return 0;
     if($a <= $l && $r <= $b) return $tree[$k];
  
@@ -61,4 +62,38 @@
     $rv = sub_query($a, $b, $x+2, $mid, $r);
     return max($lv, $rv);
   }
+
+  function add($start, $end, $x){
+    global $N;
+    return sub_add($start-1, $end, $x, 0, 0, $N);
+  }
+
+  function sub_add($a, $b, $v, $k, $l, $r){
+    global $lazy, $tree;
+    reflect($k,$l,$r);
+    if($b <= $l || $r <= $a) return;
+    if($a <= $l && $r <= $b){
+      $lazy[$k] += $v;
+      reflect($k,$l,$r);
+      return;
+    }
+
+    $mid = ($l+$r) >> 1;
+    $x=$k<<1;
+    sub_add($a, $b, $v, $x+1, $l, $mid);
+    sub_add($a, $b, $v, $x+2, $mid, $r);
+    $tree[$k] = $tree[$x+1] + $tree[$x+2];
+  }
  
+  function reflect($k,$l,$r){
+    global $tree, $lazy;
+    if($lazy[$k] != 0){
+      $tree[$k] += $lazy[$k];
+      if($r-$l > 1){
+        $lazy[$k*2+1] += $lazy[$k] / 2;
+        $lazy[$k*2+1] += $lazy[$k] / 2;
+      }
+      $lazy[$k]=0;
+    }
+  }
+
