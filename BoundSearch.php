@@ -8,7 +8,7 @@
     $ng=count($a);
     if($ng === 0) return -1;
     while($ng-$ok > 1){
-      $m=intdiv($ng+$ok, 2);
+      $m=($ng+$ok)>>1;
       //echo "m:".$m." ok:".$ok." ng:".$ng." a:".$a[$m]." x:".$x.PHP_EOL;
       if($a[$m] < $x) $ok = $m;
       else $ng = $m;
@@ -24,7 +24,7 @@
     $ng=-1;
     if($ok === 0) return -1;
     while($ok-$ng > 1){
-      $m=intdiv($ng+$ok, 2);
+      $m=($ng+$ok)>>1;
       //echo "m:".$m." ok:".$ok." ng:".$ng." a:".$a[$m]." x:".$x.PHP_EOL;
       if($x > $a[$m]) $ok = $m;
       else $ng = $m;
@@ -43,7 +43,7 @@
     $ng=count($a);
     if($ng === 0) return -1;
     while($ng-$ok > 1){
-      $m=intdiv($ng+$ok, 2);
+      $m=($ng+$ok)>>1;
       //echo "m:".$m." ok:".$ok." ng:".$ng." a:".$a[$m]." x:".$x.PHP_EOL;
       if($a[$m] <= $x) $ok = $m;
       else $ng = $m;
@@ -58,7 +58,7 @@
     $ng=-1;
     if($ng === 0) return -1;
     while($ok-$ng > 1){
-      $m=intdiv($ng+$ok, 2);
+      $m=($ng+$ok)>>1;
       //echo "m:".$m." ok:".$ok." ng:".$ng." a:".$a[$m]." x:".$x.PHP_EOL;
       if($a[$m] > $x) $ok = $m;
       else $ng = $m;
@@ -75,7 +75,7 @@
     $ng=-1;
     if($ng === 0) return -1;
     while($ok-$ng > 1){
-      $m=intdiv($ng+$ok, 2);
+      $m=($ng+$ok)>>1;
       //echo "m:".$m." ok:".$ok." ng:".$ng." a:".$a[$m]." x:".$x.PHP_EOL;
       if($a[$m] >= $x) $ok = $m;
       else $ng = $m;
