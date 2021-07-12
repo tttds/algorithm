@@ -23,73 +23,58 @@ permutationAll(0, 9);
     return $permu;
   }
 
-  function appendCount($n, $str, &$permu){
-    if(count($n) <= 4){
-
-      if(count($n)===4){
-        $a = [];
-        foreach($n as $k => $v){
-          $a[] = $k;
-        }
-        $permu[] = $str.$a[0].$a[1].$a[2].$a[3];
-        $permu[] = $str.$a[0].$a[1].$a[3].$a[2];
-        $permu[] = $str.$a[0].$a[2].$a[1].$a[3];
-        $permu[] = $str.$a[0].$a[2].$a[3].$a[1];
-        $permu[] = $str.$a[0].$a[3].$a[1].$a[2];
-        $permu[] = $str.$a[0].$a[3].$a[2].$a[1];
-        $permu[] = $str.$a[1].$a[0].$a[2].$a[3];
-        $permu[] = $str.$a[1].$a[0].$a[3].$a[2];
-        $permu[] = $str.$a[1].$a[2].$a[0].$a[3];
-        $permu[] = $str.$a[1].$a[2].$a[3].$a[0];
-        $permu[] = $str.$a[1].$a[3].$a[0].$a[2];
-        $permu[] = $str.$a[1].$a[3].$a[2].$a[0];
-        $permu[] = $str.$a[2].$a[0].$a[1].$a[3];
-        $permu[] = $str.$a[2].$a[0].$a[3].$a[1];
-        $permu[] = $str.$a[2].$a[1].$a[0].$a[3];
-        $permu[] = $str.$a[2].$a[1].$a[3].$a[0];
-        $permu[] = $str.$a[2].$a[3].$a[0].$a[1];
-        $permu[] = $str.$a[2].$a[3].$a[1].$a[0];
-        $permu[] = $str.$a[3].$a[0].$a[1].$a[2];
-        $permu[] = $str.$a[3].$a[0].$a[2].$a[1];
-        $permu[] = $str.$a[3].$a[1].$a[0].$a[2];
-        $permu[] = $str.$a[3].$a[1].$a[2].$a[0];
-        $permu[] = $str.$a[3].$a[2].$a[0].$a[1];
-        $permu[] = $str.$a[3].$a[2].$a[1].$a[0];
-        return;
-      }
-
-      if(count($n)===3){
-        $a = [];
-        foreach($n as $k => $v){
-          $a[] = $k;
-        }
-        $permu[] = $str.$a[0].$a[1].$a[2];
-        $permu[] = $str.$a[0].$a[2].$a[1];
-        $permu[] = $str.$a[1].$a[0].$a[2];
-        $permu[] = $str.$a[1].$a[2].$a[0];
-        $permu[] = $str.$a[2].$a[0].$a[1];
-        $permu[] = $str.$a[2].$a[1].$a[0];
-        return;
-      }
-  
-      if(count($n)===2){
-        $a = [];
-        foreach($n as $k => $v){
-          $a[] = $k;
-        }
-        $permu[] = $str.$a[0].$a[1];
-        $permu[] = $str.$a[1].$a[0];
-        return;
-      }
-
-      if(count($n)===1){
-        $permu[] = $str.key($n);
-        return;
-      }
+  function appendCount(&$n, $str, &$permu){
+    $a = [];
+    foreach($n as $k => $v){
+      if(!$v) continue;
+      $a[] = $k;
+    }
+    if(count($n)===4){
+      $permu[] = $str.$a[0].$a[1].$a[2].$a[3];
+      $permu[] = $str.$a[0].$a[1].$a[3].$a[2];
+      $permu[] = $str.$a[0].$a[2].$a[1].$a[3];
+      $permu[] = $str.$a[0].$a[2].$a[3].$a[1];
+      $permu[] = $str.$a[0].$a[3].$a[1].$a[2];
+      $permu[] = $str.$a[0].$a[3].$a[2].$a[1];
+      $permu[] = $str.$a[1].$a[0].$a[2].$a[3];
+      $permu[] = $str.$a[1].$a[0].$a[3].$a[2];
+      $permu[] = $str.$a[1].$a[2].$a[0].$a[3];
+      $permu[] = $str.$a[1].$a[2].$a[3].$a[0];
+      $permu[] = $str.$a[1].$a[3].$a[0].$a[2];
+      $permu[] = $str.$a[1].$a[3].$a[2].$a[0];
+      $permu[] = $str.$a[2].$a[0].$a[1].$a[3];
+      $permu[] = $str.$a[2].$a[0].$a[3].$a[1];
+      $permu[] = $str.$a[2].$a[1].$a[0].$a[3];
+      $permu[] = $str.$a[2].$a[1].$a[3].$a[0];
+      $permu[] = $str.$a[2].$a[3].$a[0].$a[1];
+      $permu[] = $str.$a[2].$a[3].$a[1].$a[0];
+      $permu[] = $str.$a[3].$a[0].$a[1].$a[2];
+      $permu[] = $str.$a[3].$a[0].$a[2].$a[1];
+      $permu[] = $str.$a[3].$a[1].$a[0].$a[2];
+      $permu[] = $str.$a[3].$a[1].$a[2].$a[0];
+      $permu[] = $str.$a[3].$a[2].$a[0].$a[1];
+      $permu[] = $str.$a[3].$a[2].$a[1].$a[0];
+      return;
+    }else if(count($a)===3){
+      $permu[] = $str.$a[0].$a[1].$a[2];
+      $permu[] = $str.$a[0].$a[2].$a[1];
+      $permu[] = $str.$a[1].$a[0].$a[2];
+      $permu[] = $str.$a[1].$a[2].$a[0];
+      $permu[] = $str.$a[2].$a[0].$a[1];
+      $permu[] = $str.$a[2].$a[1].$a[0];
+      return;
+    }else if(count($a)===2){
+      $permu[] = $str.$a[0].$a[1];
+      $permu[] = $str.$a[1].$a[0];
+      return;
+    }else if(count($a)===1){
+      $permu[] = $str.key($a);
+      return;
     }
 
     foreach($n as $key => $value){
-      unset($n[$key]);
+      if(!$value) continue;
+      $n[$key]=false;
       appendCount($n, $str.$key, $permu);
       $n[$key]=true;
     }
