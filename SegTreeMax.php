@@ -53,12 +53,12 @@
     $ret = 0;
     while($l < $r){
       if($r&1){
-        $r--;
-        $ret = max($ret, $tree[$r-1]);
+        //$r--;
+        $ret = max($ret, $tree[$r-2]);
       }
       if($l&1){
         $ret = max($ret, $tree[$l-1]);
-        $l++;
+        ++$l;
       }
       $l >>= 1;
       $r >>= 1;
