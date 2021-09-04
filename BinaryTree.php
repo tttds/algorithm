@@ -1,87 +1,158 @@
 <?php
- 
+
 $test = new BinaryTree();
 $test->insert(1);
 $test->insert(2);
 $test->insert(3);
 $test->insert(4);
+$i=0;
+echo ++$i;
 echo $test->max() === 4 ? "OK" : "NG";
+echo PHP_EOL;
+echo ++$i;
 echo $test->min() === 1 ? "OK" : "NG";
 
 $test->delete(1);
+echo PHP_EOL;
+echo ++$i;
 echo $test->max() === 4 ? "OK" : "NG";
+echo PHP_EOL;
+echo ++$i;
 echo $test->min() === 2 ? "OK" : "NG";
 
 $test->delete(4);
+echo PHP_EOL;
+echo ++$i;
 echo $test->max() === 3 ? "OK" : "NG";
+echo PHP_EOL;
+echo ++$i;
 echo $test->min() === 2 ? "OK" : "NG";
 
 $test->insert(5);
+echo PHP_EOL;
+echo ++$i;
 echo $test->max() === 5 ? "OK" : "NG";
+echo PHP_EOL;
+echo ++$i;
 echo $test->min() === 2 ? "OK" : "NG";
 
 $test->delete(5);
+echo PHP_EOL;
+echo ++$i;
 echo $test->max() === 3 ? "OK" : "NG";
+echo PHP_EOL;
+echo ++$i;
 echo $test->min() === 2 ? "OK" : "NG";
 
 $test->insert(1);
+echo PHP_EOL;
+echo ++$i;
 echo $test->max() === 3 ? "OK" : "NG";
+echo PHP_EOL;
+echo ++$i;
 echo $test->min() === 1 ? "OK" : "NG";
 
 $test->delete(1);
+echo PHP_EOL;
+echo ++$i;
 echo $test->max() === 3 ? "OK" : "NG";
+echo PHP_EOL;
+echo ++$i;
 echo $test->min() === 2 ? "OK" : "NG";
 
 $test->delete(3);
+echo PHP_EOL;
+echo ++$i;
 echo $test->max() === 2 ? "OK" : "NG";
+echo PHP_EOL;
+echo ++$i;
 echo $test->min() === 2 ? "OK" : "NG";
 
 $test->insert(2);
+echo PHP_EOL;
+echo ++$i;
 echo $test->max() === 2 ? "OK" : "NG";
+echo PHP_EOL;
+echo ++$i;
 echo $test->min() === 2 ? "OK" : "NG";
 
 $test->delete(2);
+echo PHP_EOL;
+echo ++$i;
 echo $test->max() === 2 ? "OK" : "NG";
+echo PHP_EOL;
+echo ++$i;
 echo $test->min() === 2 ? "OK" : "NG";
 
 $test->delete(2);
+echo PHP_EOL;
+echo ++$i;
 echo $test->max() === -1 ? "OK" : "NG";
+echo PHP_EOL;
+echo ++$i;
 echo $test->min() === -1 ? "OK" : "NG";
 
 class Node {
   public $data;
   public $leftNode;
   public $rightNode;
+  public $count;
   function __construct($data){
     $this->data = $data;
     $this->leftNode = null;
     $this->rightNode = null;
+    $this->count = 1;
   }
 }
- 
+
+//---------------
+// 2分探索木
+//---------------
 class BinaryTree {
  
   private $root;
- 
+
+  //------------------
+  // データを登録する
+  //------------------
   function insert($data){
+    // 登録する場所を決めるからrootから探索する
     $p =& $this->root;
+    $isSame = false;
+    // 探索ノードがなくなったらそこが登録する位置となる
     while($p != null){
-      //if($p->data == $data) return false;
-      if($p->data >= $data){
+      // 現在のノードより
+      // →小さい場合は左のノードを探索
+      // →大きい場合は右のノードを探索
+      // →同じ場合は現在のノードのカウントをインクリメントする
+      if($p->data > $data){
         $p =& $p->leftNode;
       }else if($p->data < $data){
         $p =& $p->rightNode;
+      }else{
+        $p->count++;
+        $isSame = true;
+        break;
       }
     }
-    $p = new Node($data);
+    if(!$isSame) {
+      $p = new Node($data);
+    }
   }
- 
+
+  //------------------
+  // データを削除する
+  //------------------
   function delete($data){
     $p =& $this->root;
     $parent = null;
     while($p != null){
       // データ発見
       if($p->data == $data){
+        if($p->count > 1) {
+          $p->count--;
+          return true;
+        }
         // 子が左右両方に存在する場合、右の最小のノードを検索
         if($p->leftNode != null && $p->rightNode != null){
           $parent =& $p;
@@ -90,13 +161,12 @@ class BinaryTree {
             $parent =& $p2;
             $p2 =& $p2->leftNode;
           }
-          // データを更新
+          // 右の最小ノードを削除したノードの位置に持ってくる
           $p->data =& $p2->data;
           $parent->leftNode = null;
         }        
-        // 子が左だけ存在する場合
+        // 子が左だけ存在する場合、左のノードを削除した位置に持ってくる
         else if($p->leftNode != null){
-          //echo "left ".$parent->data ." ".$data.PHP_EOL;
           if($parent != null){
             if($parent->data > $p->data){
               $parent->leftNode =& $p->leftNode;
@@ -108,9 +178,8 @@ class BinaryTree {
             $this->root =& $p->leftNode;
           }
         }
-        // 子が右だけ存在する場合
+        // 子が右だけ存在する場合、右のノードを削除した位置に持ってくる
         else if($p->rightNode != null){
-          //echo "right ".$parent->data ." ".$data.PHP_EOL;
           if($parent != null){
             if($parent->data > $p->data){
               $parent->leftNode =& $p->rightNode;
@@ -122,9 +191,8 @@ class BinaryTree {
             $this->root =& $p->rightNode;
           }
         }
-        // 子なし
+        // 子がない場合、親からの参照を外す
         else {
-          //echo "leaf ".$parent->data ." ".$data.PHP_EOL;
           if($parent != null){
             if($parent->data < $data){
               $parent->rightNode = null;
@@ -154,7 +222,10 @@ class BinaryTree {
     }
     return false;
   }
- 
+
+  //-----------------
+  // データを検索する
+  //-----------------
   function find($data){
     $p =& $this->root;
     while($p != null){
@@ -170,6 +241,10 @@ class BinaryTree {
     return false;
   }
  
+  //-----------------
+  // 最小値を検索する
+  // 1件もデータが入っていない場合は-1を返す
+  //-----------------
   function min(){
     $p =& $this->root;
     if($p == null){
@@ -181,6 +256,10 @@ class BinaryTree {
     return $p->data;
   }
  
+  //-----------------
+  // 最大値を検索する
+  // 1件もデータが入っていない場合は-1を返す
+  //-----------------
   function max(){
     $p =& $this->root;
     if($p == null){
