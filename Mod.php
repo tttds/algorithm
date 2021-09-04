@@ -105,8 +105,8 @@ function getBinomialInit_mod($n, $mod){
     return [$factorial, $ifactorial];
 }
 
-function getBiomial_mod($fact, $ifact, $n, $k){
-  if (n < k) return 0;
-  if (n < 0 || k < 0) return 0;
-  return fac[n] * (finv[k] * finv[n - k] % MOD) % MOD;
+function getBiomial_mod($fact, $ifact, $n, $k, $mod){
+  if ($n < $k) return 0;
+  if ($n < 0 || $k < 0) return 0;
+  return $fact[$n] * ($ifact[$k] * $ifact[$n - $k] % $mod) % $mod;
 }
