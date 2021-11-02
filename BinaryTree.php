@@ -92,6 +92,42 @@ echo PHP_EOL;
 echo ++$i;
 echo $test->min() === -1 ? "OK" : "NG";
 
+echo PHP_EOL;
+echo PHP_EOL;
+
+$test = new BinaryTree();
+$test->insert(0);
+$test->insert(5);
+$test->insert(2);
+$test->insert(4);
+$i=0;
+echo ++$i;
+echo $test->max() === 5 ? "OK" : "NG";
+echo PHP_EOL;
+echo ++$i;
+echo $test->min() === 0 ? "OK" : "NG";
+echo PHP_EOL;
+echo ++$i;
+echo $test->find(5) === true ? "OK" : "NG";
+echo PHP_EOL;
+echo ++$i;
+echo $test->find(0) === true ? "OK" : "NG";
+echo PHP_EOL;
+echo ++$i;
+echo $test->find(2) === true ? "OK" : "NG";
+echo PHP_EOL;
+echo ++$i;
+echo $test->find(4) === true ? "OK" : "NG";
+
+$test->delete(0);
+echo PHP_EOL;
+echo ++$i;
+echo $test->max() === 5 ? "OK" : "NG";
+echo PHP_EOL;
+echo ++$i;
+echo $test->min() === 2 ? "OK" : "NG";
+
+
 class Node {
     public $data;
     public $leftNode;
@@ -106,8 +142,7 @@ class Node {
         $this->rightNode = null;
         $this->parent = null;
         $this->count = 1;
-        $this->leftDepth = 0;
-        $this->rightDepth = 0;
+        $this->depth = 0;
     }
 }
 
@@ -145,7 +180,65 @@ class BinaryTree {
         }
         if(!$exists) {
             $p = new Node($data);
-            $p->parent = $parent;
+            $p->parent =& $parent;
+            // 親の深さを更新し、右ノードと左ノードの深さの差が1になると回転させる
+            $p =& $p->parent;
+            while($p != null){
+                $rightDepth = $p->rightNode !== null ? $p->rightNode->depth : 0;
+                $leftDepth = $p->leftNode !== null ? $p->leftNode->depth : 0;
+                echo $leftDepth." ".$rightDepth.PHP_EOL;
+                if($p->rightNode !== null && $rightDepth - $leftDepth >= 2){
+                    // 左回転
+                    $p->rightNode->parent =& $p->parent;
+                    // 親がない場合はroot
+                    if($p->parent === null){
+                        $this->root =& $p->rightNode;
+                    }else{
+                        if($p->parent->data > $p->rightNode->data){
+                            $p->parent->leftNode =& $p->rightNode;
+                        }else{
+                            $p->parent->rightNode =& $p->rightNode;
+                        }
+                    }
+                    $p->parent =& $p->rightNode;
+                    if($p->parent->leftNode !== null){
+                        $p->parent->leftNode->parent =& $p;
+                    }
+                    $p->rightNode =& $p->parent->leftNode;
+                    $p->parent->leftNode =& $p;
+
+                    $p->depth = $this->depth($p);
+                    $p->parent->depth = $this->depth($p->parent);
+                    $p =& $p->parent->parent;
+                }else if($p->leftNode != null && $leftDepth - $rightDepth >= 2){
+                    // 右回転
+                    $p->leftNode->parent =& $p->parent;
+                    // 親がない場合はroot
+                    if($p->parent === null){
+                        $this->root =& $p->leftNode;
+                    }else{
+                        if($p->parent->data > $p->leftNode->data){
+                            $p->parent->leftNode =& $p->leftNode;
+                        }else{
+                            $p->parent->rightNode =& $p->leftNode;
+                        }
+                    }
+                    $p->parent =& $p->leftNode;
+                    if($p->parent->rightNode !== null){
+                        $p->parent->rightNode->parent =& $p;
+                    }
+                    $p->leftNode =& $p->parent->rightNode;
+                    $p->parent->rightNode =& $p;
+
+                    $p->depth = $this->depth($p);
+                    $p->parent->depth = $this->depth($p->parent);
+                    $p =& $p->parent->parent;
+                }else{
+                    // 子の深さ（深い方）＋１が自分の深さ
+                    $p->depth = $this->depth($p);
+                    $p =& $p->parent;
+                }
+            }
         }
     }
 
@@ -284,6 +377,16 @@ class BinaryTree {
             $p =& $p->rightNode;
         }
         return $p->data;
+    }
+
+    //-----------------
+    // 深さを計算する
+    //-----------------
+    function depth(&$p){
+        $depth = 0;
+        if($p->leftNode != null) $depth = $p->leftNode->depth + 1;
+        if($p->rightNode != null) $depth = max($depth, $p->rightNode->depth + 1);
+        return $depth;
     }
  
 }
