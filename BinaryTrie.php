@@ -1,10 +1,23 @@
 <?php
 
-$bt = new BinaryTrie(7, 3);
+$bt = new BinaryTrie(7, 5);
 $bt->insert(5);
-//$bt->insert(2);
-
 echo implode(" ", $bt->nodes);
+echo PHP_EOL;
+echo implode(" ", $bt->cnt);
+echo PHP_EOL;
+
+$bt->insert(1);
+echo implode(" ", $bt->nodes);
+echo PHP_EOL;
+echo implode(" ", $bt->cnt);
+echo PHP_EOL;
+
+
+$bt->insert(2);
+echo implode(" ", $bt->nodes);
+echo PHP_EOL;
+echo implode(" ", $bt->cnt);
 echo PHP_EOL;
 
 //var_dump($bt->cnt);
