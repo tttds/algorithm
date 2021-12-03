@@ -97,6 +97,7 @@
 
     /**
      * $x番目の要素
+     * 存在しない場合は -1を返す
      */
     public function get($x) {
       $sum = 0;
@@ -117,6 +118,7 @@
     
     /**
      * $x以上の最小の要素
+     * 存在しない場合は -1を返す
      */
     public function ge_min_val($x) {
       return $this->get($this->sum($x-1)+1);
@@ -124,6 +126,7 @@
 
     /**
      * $x以下の最大の要素
+     * 存在しない場合は -1を返す
      */
     public function le_max_val($x) {
       $ret = $this->get($this->sum($x));
