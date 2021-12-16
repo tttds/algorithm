@@ -13,6 +13,9 @@ permutationAll(0, 9);
     if($end < $start){
       return [];
     }
+    if($start == $end){
+      return ["".$start];
+    }
     $n=[];
     for($i=$start;$i<=$end;$i++){
       $n[$i]=true;
