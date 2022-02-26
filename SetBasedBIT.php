@@ -20,6 +20,8 @@
   echo $bit->exists(9) ? "OK" : "NG";echo PHP_EOL;
 
   //--- getテスト ---
+  echo $bit->get(-1) == -1 ? "OK" : "NG"; echo PHP_EOL;
+  echo $bit->get(0) == -1 ? "OK" : "NG"; echo PHP_EOL;
   echo $bit->get(1) == 3 ? "OK" : "NG"; echo PHP_EOL;
   echo $bit->get(2) == 9 ? "OK" : "NG"; echo PHP_EOL;
   echo $bit->get(3) == 11 ? "OK" : "NG"; echo PHP_EOL;
@@ -52,6 +54,7 @@
     public $n;
     public $bit;
     public $exp2;
+    public $count;
     
     /**
      * 1～$nまでを扱うため、$nを超える値が入る場合は座圧すること
@@ -59,6 +62,7 @@
     function __construct($n){
       $this->n = $n;
       $this->exp2 = 1;
+      $this->count = 0;
       while($this->exp2 * 2 <= $n){
         $this->exp2 *= 2;
       }
@@ -71,6 +75,7 @@
      */
     public function insert($i) {
       $x = 1;
+      ++$this->count;
       for ($idx = $i; $idx <= $this->n; $idx += ($idx & $idx*-1)) {
           $this->bit[$idx] += $x;
       }
@@ -81,6 +86,7 @@
      * $iは1～$nまでを取りうる
      */
     public function erase($i) {
+      --$this->count;
       $x = -1;
       for ($idx = $i; $idx <= $this->n; $idx += ($idx & $idx*-1)) {
           $this->bit[$idx] += $x;
@@ -100,6 +106,9 @@
      * 存在しない場合は -1を返す
      */
     public function get($x) {
+      if($x <= 0 || $x > $this->count){
+        return -1;
+      }
       $sum = 0;
       $pos = 0;
       for($i = $this->exp2; $i > 0; $i = $i >> 1){
@@ -149,5 +158,18 @@
           $s += $this->bit[$idx];
       }
       return $s;
+    }
+
+    /**
+     * 要素が$x以上になる最小の添え字
+     */
+    public function lower_bound($x) {
+      return $this->sum($x-1)+1;
+    }
+    /**
+     * 要素が$x以下になる最大の添え字
+     */
+    public function upper_bound($x) {
+      return $this->sum($x);
     }
   }
