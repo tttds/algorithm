@@ -9,17 +9,16 @@ $mf->addEdge(4, 3, 3);
 $mf->addEdge(3, 5, 5);
 $mf->addEdge(4, 5, 8);
 echo $mf->max_flow(1, 5);
+echo PHP_EOL;
 
-/*
 $mf = new MaxFlow();
 $mf->addEdge(1, 2, 4);
 $mf->addEdge(1, 3, 1);
 $mf->addEdge(2, 4, 2);
 $mf->addEdge(3, 4, 4);
 echo $mf->max_flow(1, 4);
-*/
+echo PHP_EOL;
 
-/*
 $mf = new MaxFlow();
 $mf->addEdge(1, 2, 4);
 $mf->addEdge(1, 3, 1);
@@ -27,7 +26,7 @@ $mf->addEdge(2, 3, 1);
 $mf->addEdge(2, 4, 2);
 $mf->addEdge(3, 4, 4);
 echo $mf->max_flow(1, 4);
-*/
+echo PHP_EOL;
 
 class MaxFlow {
 

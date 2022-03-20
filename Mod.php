@@ -120,6 +120,9 @@ function getBinomialInit_mod($n, $mod){
     return [$factorial, $ifactorial];
 }
 
+//------------------------------
+// nCkを求める
+//------------------------------
 function getBiomial_mod($fact, $ifact, $n, $k, $mod){
   if ($n < $k) return 0;
   if ($n < 0 || $k < 0) return 0;
