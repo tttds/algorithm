@@ -105,7 +105,7 @@ class SegTree {
         }
         $this->op = $op;
         $this->e = $e;
-        $this->tree=array_fill(0, $this->N*2-1, 0);
+        $this->tree=array_fill(0, $this->N*2-1, $this->e);
     }
 
     // $i番目の値を$valueで更新する

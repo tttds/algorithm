@@ -56,6 +56,7 @@ class MaxFlow {
     function dfs($v, $t, $f){
         if($v == $t) return $f;
         $this->used[$v] = true;
+        if(!isset($this->G[$v])) return 0;
         for($i=0;$i<count($this->G[$v]);$i++){
             $e =& $this->G[$v][$i];
             if(!isset($this->used[$e->to]) && $e->cap > 0){

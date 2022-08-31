@@ -12,7 +12,7 @@
  * @param $mod   素数
  */
 function Inverse($value, $mod) {
-    return repeatSqrt($value, $mod-2, $mod);
+    return intval(gmp_powm($value,$mod-2,$mod));
 }
 
 /**
