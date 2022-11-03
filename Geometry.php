@@ -76,3 +76,40 @@ function rotate2d($radian, $x, $y){
   $retY = $nsin * $x + $ncos * $y;
   return [$retX, $retY];
 }
+
+/**
+ * 点1と点2を通る直線と点3からの最短距離を求める
+ * 
+ */
+function distanctCrossPoint($x1, $y1, $x2, $y2, $x3, $y3){
+  [$x, $y] = crossPoint($x1, $y1, $x2, $y2, $x3, $y3);
+  $dx = $x3 - $x;
+  $dy = $y3 - $y;
+  return sqrt($dx*$dx + $dy*$dy);
+}
+
+
+/**
+ * 点1と点2を通る直線と点3からの垂線の足の座標を求める
+ */
+function crossPoint($x1, $y1, $x2, $y2, $x3, $y3){
+  [$a,$b,$c] = coefficientStraightLine($x1,$y1,$x2,$y2);
+  $p = ($a*$a + $b*$b);
+  $q = ($a*$b*$x3 - $a*$a*$y3 + $b*$c);
+  if($p == 0) $y = 0;
+  else $y = -1 / $p * $q;
+  if($a == 0) $x = $x3;
+  else $x = -1 * ($b*$y + $c) / $a;
+  return [$x, $y];
+}
+
+/**
+ * 点1と点2を通る直線の数式
+ * ax + by + c = 0
+ * のa, b, cを返す
+ */
+function coefficientStraightLine($x1,$y1,$x2,$y2){
+  $dx = $x2 - $x1;
+  $dy = $y2 - $y1;
+  return [$dy, -$dx, $dx*$y1 - $dy*$x1];
+}
