@@ -7,6 +7,39 @@ function isCrossing($ax, $ay, $bx, $by, $cx, $cy, $dx, $dy, $isValidEndpoint=fal
   $tc = ($ax - $bx) * ($cy - $ay) + ($ay - $by) * ($ax - $cx);
   $td = ($ax - $bx) * ($dy - $ay) + ($ay - $by) * ($ax - $dx);
 
+  // 4点が同一直線上の場合
+  if($ta == 0 && $tb == 0 && $tc == 0 && $td == 0){
+    if($isValidEndpoint){
+      if($ax == $bx && $bx == $cx && $cx == $dx){
+        return (
+            ($ay <= max($cy, $dy) && $ay >= min($cy, $dy)) ||
+            ($by <= max($cy, $dy) && $by >= min($cy, $dy)) ||
+            ($cy <= max($ay, $by) && $cy >= min($ay, $by)) 
+        ); 
+      }else{
+        return (
+            ($ax <= max($cx, $dx) && $ax >= min($cx, $dx)) ||
+            ($bx <= max($cx, $dx) && $bx >= min($cx, $dx)) ||
+            ($cx <= max($ax, $bx) && $cx >= min($ax, $bx)) 
+        );
+      }
+    }else{
+      if($ax == $bx && $bx == $cx && $cx == $dx){
+        return (
+            ($ay < max($cy, $dy) && $ay > min($cy, $dy)) ||
+            ($by < max($cy, $dy) && $by > min($cy, $dy)) ||
+            ($cy < max($ay, $by) && $cy > min($ay, $by)) 
+        );
+      }else{
+        return (
+            ($ax < max($cx, $dx) && $ax > min($cx, $dx)) ||
+            ($bx < max($cx, $dx) && $bx > min($cx, $dx)) ||
+            ($cx < max($ax, $bx) && $cx > min($ax, $bx)) 
+        );
+      }
+    }
+  }
+
   if($isValidEndpoint){
     // 端点を含む場合
     return $tc * $td <= 0 && $ta * $tb <= 0;
