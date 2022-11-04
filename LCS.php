@@ -8,32 +8,32 @@ echo lcs($s, $t);
 $s = ["a"];
 $t = ["a"];
 echo lcs($s,$t);
-
 /**
  * $s, $tの最長共通部分文字列nの長さを返す
  * $sと$tの長さは違ってもOK
  */
 function lcs($s, $t){
-    $m=count($s);
-    $n=count($t);
+    $m=strlen($s);
+    $n=strlen($t);
 
-    for($i=0;$i<=$m;$i++){
-        $len[$i][0] = 0;
-    }
-    for($i=0;$i<=$n;$i++){
-        $len[0][$i] = 0;
+    for($i=0;$i<=$n;++$i){
+        $len1[$i] = 0;
     }
 
-    for ($i=1;$i<=$m;$i++){
-        for($j=1;$j<=$n;$j++){
-            if($s[$i-1] == $t[$j-1]){
-                $len[$i][$j] = $len[$i-1][$j-1] + 1;
+    for ($i=1;$i<=$m;++$i){
+        $len2[0] = 0;
+        $i1=$i-1;
+        for($j=1;$j<=$n;++$j){
+            $j1=$j-1;
+            if($s[$i1] === $t[$j1]){
+                $len2[$j] = $len1[$j1] + 1;
             } else {
-                $len[$i][$j] = max($len[$i][$j-1], $len[$i-1][$j]);
+                $len2[$j] = max($len2[$j1], $len1[$j]);
             }        
         }
+        $len1 = $len2;
     }    
-    return $len[$m][$n];
+    return $len2[$n];
 }
 
 
