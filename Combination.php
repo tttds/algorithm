@@ -1,26 +1,5 @@
 <?php
 
-$array = [1, 2, 3, 4];
-$m = 2;
-$ans = getCombinationPattern($array, $m);
-//var_dump($ans);
-echo "--test1-----------".PHP_EOL;
-for($i=0;$i<count($ans);$i++){
-  echo implode(" ", $ans[$i]);
-  echo PHP_EOL;
-}
-
-echo "--test2-----------".PHP_EOL;
-$array = [1, 2, 3, 4];
-$m = 3;
-$ans = getCombinationPattern($array, $m);
-
-for($i=0;$i<count($ans);$i++){
-  echo implode(" ", $ans[$i]);
-  echo PHP_EOL;
-}
-
-
 //-------------------------------------------------------------------------
 // 組み合わせのパターンを作成する（nCm）
 //-------------------------------------------------------------------------
@@ -31,17 +10,17 @@ for($i=0;$i<count($ans);$i++){
 // $array = [1, 2, 3, 4], $m = 2
 // $ret = [[1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4]]
 //-------------------------------------------------------------------------
-function getCombinationPattern($array, $m){
+function getCombinationPattern($start, $end, $m){
 
-  $count = count($array);;
+  $count = $end - $start + 1;
   $bit = 1<<$count;
   $ret=[];
   for($i=0;$i<$bit;$i++){
     if(gmp_popcount($i) == $m){
       $ret_elem = [];
       for($j=0;$j<$count;$j++){
-        if(($i>>$j & 1) == 1){
-          $ret_elem[] = $array[$j];
+        if(($i>>$j) & 1){
+          $ret_elem[] = ($j + $start);
         }
       }
       $ret[] = $ret_elem;
@@ -50,3 +29,22 @@ function getCombinationPattern($array, $m){
   return $ret;
 
 }
+
+
+
+//-------------------------------------------------------------------------
+// $startから$endまでの数のうち、合計が$sumになる長さ$mのIndexを返す
+// 例：$start=0, $end=3, $sum=4, $m=3
+// $ret = ["013","022","031","103","112","121","130","202","211","220","301","310"]
+//-------------------------------------------------------------------------
+
+/*
+function getCombinationIndex($start, $end, $sum, $m){
+  $ret = [];
+  $now = "";
+  for($i=0;$i<$m;$i++){
+    getCombincationIndex($start, $end, $sum, $m);
+  }
+  return $ret;
+}
+*/
