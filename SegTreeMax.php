@@ -1,6 +1,5 @@
 <?php
 
-
 class SegTree {
 
     private $N = 1;
@@ -14,12 +13,7 @@ class SegTree {
             $this->N *= 2;
             ++$hierarchy;
         }
-        $n = $this->N;
-        for($i=0;$i<=$hierarchy;$i++){
-            $range = 1<<$i;
-            $this->tree[$i] = array_fill(0, $n, $e);
-            $n>>=1;
-        }
+        $this->tree = array_fill(0, $this->N*2, $e);
         $this->e = $e;
         $this->hierarchy = $hierarchy;
     }
@@ -27,53 +21,49 @@ class SegTree {
     // $x番目の値を$valueで更新する
     // $xは0から始まる
     function update($x, $value){
-        $tree =& $this->tree[0];
+        $x += $this->N;
+        $tree =& $this->tree;
         $tree[$x] = $value;
-        for($i=1;$i<=$this->hierarchy;++$i){
-            $treeNext =& $this->tree[$i];
-            $xnext = $x >> 1;
-            $x &= ~1;
+        while($x){
+            $xnext = $x>>1;
             //---------------------
-            if($tree[$x] < $tree[$x+1]){
-                $treeNext[$xnext] = $tree[$x+1];
+            if($tree[$x] < $tree[$x^1]){
+                $tree[$xnext] = $tree[$x^1];
             }else{
-                $treeNext[$xnext] = $tree[$x];
+                $tree[$xnext] = $tree[$x];
             }
-            //---------------------
-            $x = $xnext;
-            $tree =& $treeNext;
+            $x>>=1;
         }
     }
-    // $start番目から$end番目までの和を取得する
-    // $startは0から始まる
-    function query($start, $end){
+    // $l番目から$r-1番目までの和を取得する
+    // $lは0から始まる
+    function query($l, $r){
+        $l+=$this->N;
+        $r+=$this->N;
         $ans = $this->e;
         $tree =& $this->tree;
-        $i = 0;
-        $range = 1;
-        while($start < $end){
-            $tree_child =& $tree[$i];
-            $s = $start>>$i;
-            if($s & 1){
+        while($l < $r){
+            //echo ">>".$l." ".$r.PHP_EOL;
+            if($l & 1){
                 //---------------------
-                if($ans < $tree_child[$s]){
-                    $ans = $tree_child[$s];
+                if($ans < $tree[$l]){
+                    $ans = $tree[$l];
                 }
                 //---------------------
-                $start += $range;
+                ++$l;
             }
-            $e = $end >> $i;
-            if($e & 1){
+            if($r & 1){
                 //---------------------
-                if($ans < $tree_child[$e-1]){
-                    $ans = $tree_child[$e-1];
+                if($ans < $tree[$r-1]){
+                    $ans = $tree[$r-1];
                 }
                 //---------------------
-                $end -= $range;
             }
-            ++$i;
-            $range <<= 1;
+            $l>>=1;
+            $r>>=1;
+            //echo ">>>".$ans.PHP_EOL;
         }
+        //var_dump($this->tree);
         return $ans;
     }
 }
