@@ -1,14 +1,14 @@
 <?php
 
 class UnionFind {
-    public $d = [];
-    function __construct($n){
+    private $d = [];
+    public function __construct($n){
         $d =& $this->d;
         for($i=1;$i<=$n;++$i){
             $d[$i] = -1;
         }
     }
-    function unite($x, $y){
+    public function unite($x, $y){
         $rx = $this->root($x);
         $ry = $this->root($y);
         if($rx == $ry) return false;
@@ -22,14 +22,14 @@ class UnionFind {
         }
         return true;
     }
-    function root($x){
+    public function root($x){
         if($this->d[$x] < 0) return $x;
         return $this->d[$x] = $this->root($this->d[$x]);
     }
-    function size($x){
+    public function size($x){
         return $this->d[$this->root($x)]*-1;
     }
-    function isSame($x, $y){
+    public function isSame($x, $y){
         return $this->root($x) == $this->root($y);        
     }
 }
