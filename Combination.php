@@ -35,7 +35,7 @@ class Combination {
     }
     private function dfs($s, $e, &$arr, $x){
         if($x === 0) {
-            $this->ptn[] =& $arr;
+            $this->ptn[] = $arr;
             return;
         }
         $ex = $e-$x;
@@ -70,7 +70,7 @@ class Combination {
     }
     private function dfs2($s, $e, &$arr, $x, $sum) {
         if($x === 0) {
-            $this->ptn[] =& $arr;
+            $this->ptn[] = $arr;
             return;
         }
         $min = max(0, $sum-$e*($x-1));
