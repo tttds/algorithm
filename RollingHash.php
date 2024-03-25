@@ -41,7 +41,6 @@ class RollingHash {
         $this->mod = $mod;
         $this->s =& $s;
         $this->n = $n = strlen($s);
-        $alpha = "abcdefghijklmnopqrstuvwxyz";
         // power
         $power =& $this->power;
         $power[0] = 1;
