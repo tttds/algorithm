@@ -128,27 +128,9 @@ echo ++$i;
 echo $test->min() === 2 ? "OK" : "NG";
 
 
-class Node {
-    public $data;
-    public $leftNode;
-    public $rightNode;
-    public $parent;
-    public $count;
-    public $leftDepth;
-    public $rightDepth;
-    function __construct($data){
-        $this->data = $data;
-        $this->leftNode = null;
-        $this->rightNode = null;
-        $this->parent = null;
-        $this->count = 1;
-        $this->depth = 0;
-    }
-}
-
-//---------------
-// 2分探索木
-//---------------
+/**
+ * 二分探索木
+ */
 class BinaryTree {
  
     private $root;
@@ -179,7 +161,23 @@ class BinaryTree {
             }
         }
         if(!$exists) {
-            $p = new Node($data);
+            $p = new class($data) {
+                public $data;
+                public $leftNode;
+                public $rightNode;
+                public $parent;
+                public $count;
+                public $leftDepth;
+                public $rightDepth;
+                function __construct($data){
+                    $this->data = $data;
+                    $this->leftNode = null;
+                    $this->rightNode = null;
+                    $this->parent = null;
+                    $this->count = 1;
+                    $this->depth = 0;
+                }
+            };
             $p->parent =& $parent;
             // 親の深さを更新し、右ノードと左ノードの深さの差が1になると回転させる
             $p =& $p->parent;
