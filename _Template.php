@@ -14,6 +14,16 @@
 //for($i=0;$i<$n;$i++){
 //}
 
+function cnt(&$a){
+    $n = count($a);
+    $cnt = [];
+    for($i=0;$i<$n;$i++){
+        if(!isset($cnt[$a[$i]])) $cnt[$a[$i]]=0;
+        $cnt[$a[$i]]++;
+    }
+    return $cnt;
+}
+
 /**
  * 二分探索木
  */
