@@ -64,17 +64,17 @@ class Dijkstra {
         $cheapest = array_fill(1, $this->n, PHP_INT_MAX);
         $end = array_fill(1, $this->n, false);
         $route =& $this->route;
+        // ROOTからROOTに戻ってくる場合はPHP_INT_MAX
+        // 戻る必要がない場合は0
+        if(!$isRootReturn){
+            $cheapest[$root] = 0;
+        }
         // ROOT→次へ
         if(isset($this->route[$root])) {
             $pq = new SplPriorityQueue();
             foreach($route[$root] as $next => $cost){
                 $cheapest[$next] = $cost;
                 $pq->insert($next, -$cost);
-            }
-            // ROOTからROOTに戻ってくる場合はPHP_INT_MAX
-            // 戻る必要がない場合は0
-            if(!$isRootReturn){
-                $cheapest[$root] = 0;
             }
             while($pq->count() > 0){
                 $now = $pq->extract();
@@ -83,6 +83,7 @@ class Dijkstra {
                 if(isset($route[$now])) {
                     $cheapnow = $cheapest[$now];
                     foreach($route[$now] as $next => $cost){
+                        if($end[$next]) continue;
                         $nextcost = $cheapnow + $cost;
                         if($cheapest[$next] > $nextcost){
                             $cheapest[$next] = $nextcost;
