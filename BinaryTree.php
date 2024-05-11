@@ -169,6 +169,7 @@ class BinaryTree {
                 public $count;
                 public $leftDepth;
                 public $rightDepth;
+                public $depth;
                 function __construct($data){
                     $this->data = $data;
                     $this->leftNode = null;
@@ -184,7 +185,7 @@ class BinaryTree {
             while($p != null){
                 $rightDepth = $p->rightNode !== null ? $p->rightNode->depth : 0;
                 $leftDepth = $p->leftNode !== null ? $p->leftNode->depth : 0;
-                echo $leftDepth." ".$rightDepth.PHP_EOL;
+                //echo $leftDepth." ".$rightDepth.PHP_EOL;
                 if($p->rightNode !== null && $rightDepth - $leftDepth >= 2){
                     // 左回転
                     $p->rightNode->parent =& $p->parent;
@@ -206,8 +207,10 @@ class BinaryTree {
                     $p->parent->leftNode =& $p;
 
                     $p->depth = $this->depth($p);
-                    $p->parent->depth = $this->depth($p->parent);
-                    $p =& $p->parent->parent;
+                    if($p->parent !== null){
+                        $p->parent->depth = $this->depth($p->parent);
+                        $p =& $p->parent->parent;    
+                    }
                 }else if($p->leftNode != null && $leftDepth - $rightDepth >= 2){
                     // 右回転
                     $p->leftNode->parent =& $p->parent;
@@ -229,8 +232,10 @@ class BinaryTree {
                     $p->parent->rightNode =& $p;
 
                     $p->depth = $this->depth($p);
-                    $p->parent->depth = $this->depth($p->parent);
-                    $p =& $p->parent->parent;
+                    if($p->parent !== null){
+                        $p->parent->depth = $this->depth($p->parent);
+                        $p =& $p->parent->parent;
+                    }
                 }else{
                     // 子の深さ（深い方）＋１が自分の深さ
                     $p->depth = $this->depth($p);
