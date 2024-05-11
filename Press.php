@@ -47,6 +47,7 @@ function press(&$a){
     asort($a);
     $an = [];
     $first = true;
+    $before = -1;
     $x = 1;
     foreach($a as $k => $v){
         if($first) {
