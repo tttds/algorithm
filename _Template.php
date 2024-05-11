@@ -65,6 +65,7 @@ class BinaryTree {
                 public $count;
                 public $leftDepth;
                 public $rightDepth;
+                public $depth;
                 function __construct($data){
                     $this->data = $data;
                     $this->leftNode = null;
@@ -102,8 +103,10 @@ class BinaryTree {
                     $p->parent->leftNode =& $p;
 
                     $p->depth = $this->depth($p);
-                    $p->parent->depth = $this->depth($p->parent);
-                    $p =& $p->parent->parent;
+                    if($p->parent !== null){
+                        $p->parent->depth = $this->depth($p->parent);
+                        $p =& $p->parent->parent;    
+                    }
                 }else if($p->leftNode != null && $leftDepth - $rightDepth >= 2){
                     // 右回転
                     $p->leftNode->parent =& $p->parent;
@@ -125,8 +128,10 @@ class BinaryTree {
                     $p->parent->rightNode =& $p;
 
                     $p->depth = $this->depth($p);
-                    $p->parent->depth = $this->depth($p->parent);
-                    $p =& $p->parent->parent;
+                    if($p->parent !== null){
+                        $p->parent->depth = $this->depth($p->parent);
+                        $p =& $p->parent->parent;
+                    }
                 }else{
                     // 子の深さ（深い方）＋１が自分の深さ
                     $p->depth = $this->depth($p);
@@ -824,6 +829,7 @@ function press(&$a){
     asort($a);
     $an = [];
     $first = true;
+    $before = -1;
     $x = 1;
     foreach($a as $k => $v){
         if($first) {
