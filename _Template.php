@@ -707,6 +707,30 @@ class Doubling {
     }
 }
 
+/**
+ * 分数の優先度付キュー。最大値から取り出す。
+ * 値は以下のように設定する
+ * $value = [分子, 分母];
+ */
+class FractionMaxPriorityQueue extends SplPriorityQueue {
+    public function compare($p1, $p2) {
+        if ($p1[0]*$p2[1] === $p1[1]*$p2[0]) return 0;
+        return $p1[0]*$p2[1] > $p1[1]*$p2[0] ? 1 : -1;
+    }
+}
+
+/**
+ * 分数の優先度付キュー。最小値から取り出す。
+ * 値は以下のように設定する
+ * $value = [分子, 分母];
+ */
+class FractionMinPriorityQueue extends SplPriorityQueue {
+    public function compare($p1, $p2) {
+        if ($p1[0]*$p2[1] === $p1[1]*$p2[0]) return 0;
+        return $p1[0]*$p2[1] < $p1[1]*$p2[0] ? 1 : -1;
+    }
+}
+
 class Mod {
     /**
      * mod Pの世界で逆元を求める
