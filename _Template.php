@@ -752,6 +752,68 @@ class Permutation {
 
     private $permu = [];
 
+
+    /**
+     * 次の順列にする
+     * @param Array &$s 配列の参照
+     * @param Int $n 配列の要素数
+     * @return Boolean true:&$sを次の順列にした。false:渡された配列が最後
+     * 
+     */
+    function nextPermutation(&$s, $n){
+
+        $i = $n-1;
+        while($s[$i-1] >= $s[$i]) {
+            --$i;
+            if($i == 0) return false;
+        }
+        $j = $n-1;
+        while($s[$j] <= $s[$i-1]){
+            --$j;
+        }
+        [$s[$i-1], $s[$j]] = [$s[$j], $s[$i-1]];
+
+        --$n;
+        while($i < $n) {
+            [$s[$i], $s[$n]] = [$s[$n], $s[$i]];
+            ++$i;
+            --$n;
+        }
+        return true;
+    }
+
+    
+    /**
+     * 前の順列にする
+     * @param Array &$s 配列の参照
+     * @param Int $n 配列の要素数
+     * @return Boolean true:&$sを前の順列にした。false:渡された配列が最初
+     * 
+     */
+    function prevPermutation(&$s, $n){
+    
+        $i = $n-1;
+        while($s[$i-1] <= $s[$i]) {
+            --$i;
+            if($i == 0) return false;
+        }
+        $j = $n-1;
+        while($s[$j] >= $s[$i-1]){
+            --$j;
+        }
+        [$s[$i-1], $s[$j]] = [$s[$j], $s[$i-1]];
+    
+        --$n;
+        while($i < $n) {
+            [$s[$i], $s[$n]] = [$s[$n], $s[$i]];
+            ++$i;
+            --$n;
+        }
+        return true;
+    }
+
+    
+    
     /**
      * 順列の組み合わせを返す
      * @param Int $start 開始の数.0～9までを設定する。
