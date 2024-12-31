@@ -1,7 +1,7 @@
 <?php
 
 
-class SegTreeMaxLazy {
+class SegTreeLazyMaxAdd {
 
   private $N = 1;
   private $tree = null;
