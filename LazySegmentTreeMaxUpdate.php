@@ -3,7 +3,7 @@
 /**
  * 遅延セグメント木（最大値・区間更新）
  */
-class LazySegmentTreeMaxUpdate {
+class SegTreeLazyMaxUpdate {
     private $tree = [];
     private $lazy = [];
     private $size;
