@@ -1,6 +1,6 @@
 <?php
 
-class SegTreeLazyMaxUpdate {
+class SegTreeLazyMaxUpdateRecursive {
     private $tree = [];
     private $lazy = [];
     private $size;
