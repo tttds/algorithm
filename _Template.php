@@ -936,6 +936,7 @@ function press(&$a){
 }
 
 
+
 /**
  * 素数についてのクラス
  */
@@ -955,7 +956,7 @@ class PrimeNumber {
      * @param int $n 素因数分解したい値
      * @return array キーが素数、値が個数の連想配列
      */
-    function factorize($n){
+    public static function factorize($n){
         $res = [];
         for($i=2; $i*$i<=$n; ++$i){
             if($n % $i != 0) continue;
@@ -985,18 +986,44 @@ class PrimeNumber {
      * 
      * 性能：
      * $n=1000000 60ms
-     * $n=10000000 800ms
+     * $n=10000000 600ms
      * 
      * @param int $n
      * @return array 素数の配列
      */
-    function createPrimeNumber($n){
+    public static function createPrimeNumber($n){
         $sqrt = floor(sqrt($n));
-        $lists = array_fill(2, $n-1, true);
+        if($n > 1) $lists[2] = true;
+        if($n > 2) $lists[3] = true;
+        $cnt5 = 0;
+        $cnt7 = 0;
+        $cnt11 = 0;
+        for ($i=5; $i<=$n; $i+=6,++$cnt5,++$cnt7) {
+            if($cnt5 == 5) {
+                $cnt5 = 0;
+            }else {
+                $lists[$i] = true;
+            }
+            if($cnt7 == 7) {
+                $cnt7 = 0;
+            }else{
+                $lists[$i+2] = true;
+            }
+        }
         $prime = [];
-        for ($i=2; $i<=$sqrt; ++$i) {
+        for ($i=5; $i<=$sqrt; $i+=6) {
             if (isset($lists[$i])) {
-                for ($j=$i*2; $j<=$n; $j+=$i) {
+                $i2=$i+$i;
+                $i3=$i2+$i;
+                for ($j=$i3; $j<=$n; $j+=$i2) {
+                    unset($lists[$j]);
+                }
+            }
+            $ii = $i+2;
+            if (isset($lists[$ii])) {
+                $ii2=$ii+$ii;
+                $ii3=$ii2+$ii;
+                for ($j=$ii3; $j<=$n; $j+=$ii2) {
                     unset($lists[$j]);
                 }
             }
@@ -1021,7 +1048,7 @@ class PrimeNumber {
      * @param array $prime 素因数の配列
      * @return array キーが素数、値が個数の連想配列
      */
-    function factorizeUsePrime($n, &$prime){
+    public static function factorizeUsePrime($n, &$prime){
         if($n === 1) return [];
         $prime_count = count($prime);
         $ret=[];
@@ -1046,7 +1073,6 @@ class PrimeNumber {
         }
     }
 }
-
 
 /**
  * ローリングハッシュ
