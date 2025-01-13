@@ -1,6 +1,6 @@
 <?php
 
-$set = new Set(200);
+$set = new SetBIT(200);
 $set->insert(3);
 $set->insert(9);
 $set->insert(11);
@@ -49,7 +49,7 @@ echo $set->le_max_val(149) == 12 ? "OK" : "NG"; echo PHP_EOL;
 /**
  * Binary Indexed Treeを使ったC++のstd::setもどき
  */
-class Set{
+class SetBIT{
     
     public $n;
     public $bit;
