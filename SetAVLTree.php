@@ -1,5 +1,6 @@
+<?php
 
-class AVLNode {
+class SetAVLTree {
     public $key;
     public $height;
     public $left;
