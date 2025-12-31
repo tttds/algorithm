@@ -14,6 +14,16 @@
 //for($i=0;$i<$n;$i++){
 //}
 
+function isqrt(int $n): int {
+    if ($n < 0) {
+        throw new InvalidArgumentException("n must be non-negative");
+    }
+    $x = (int)floor(sqrt($n));
+    while (($x + 1) * ($x + 1) <= $n) $x++;
+    while ($x * $x > $n) $x--;
+    return $x;
+}
+
 function cnt(&$a){
     $n = count($a);
     $cnt = [];
