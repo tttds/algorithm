@@ -153,22 +153,38 @@ class SetBIT {
     /**
      * lower_bound:
      * x以上の最小の要素を返す
-     * 存在しなければ -1
      */
     public function lower_bound(int $x): int {
-        if ($x > $this->n) return -1;
-        $rank = $this->sum($x - 1) + 1;
+        $rank = $this->lower_bound_rank($x);
+        if ($rank <= 0 || $rank > $this->size) return -1;
         return $this->kth($rank);
     }
 
     /**
      * upper_bound:
      * xより大きい最小の要素を返す
-     * 存在しなければ -1
      */
     public function upper_bound(int $x): int {
-        if ($x >= $this->n) return -1;
-        $rank = $this->sum($x) + 1;
+        $rank = $this->upper_bound_rank($x);
+        if ($rank <= 0 || $rank > $this->size) return -1;
         return $this->kth($rank);
+    }
+
+    /**
+     * lower_bound_rank:
+     * x以上の最小要素の順位（1-indexed）
+     * 存在しない場合は size+1 を返す
+     */
+    public function lower_bound_rank(int $x): int {
+        return $this->sum($x - 1) + 1;
+    }
+
+    /**
+     * upper_bound_rank:
+     * xより大きい最小要素の順位（1-indexed）
+     * 存在しない場合は size+1 を返す
+     */
+    public function upper_bound_rank(int $x): int {
+        return $this->sum($x) + 1;
     }
 }
