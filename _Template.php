@@ -317,7 +317,7 @@ class Binomial {
      * $ifactorial・・階乗の逆元 
      *
      */
-    public function getBinomialInit_mod($n, $mod){
+    public static function getBinomialInit_mod($n, $mod){
         $factorial = [1,1];
         $ifactorial = [1,1];
         $inv = [1,1];
@@ -337,7 +337,7 @@ class Binomial {
      * @param Int $k nCkのk
      * @param Int $mod 余り
      */
-    public function getBiomial_mod($fact, $ifact, $n, $k, $mod){
+    public static function getBiomial_mod($fact, $ifact, $n, $k, $mod){
         if ($n < $k) return 0;
         if ($n < 0 || $k < 0) return 0;
         return $fact[$n] * ($ifact[$k] * $ifact[$n - $k] % $mod) % $mod;
