@@ -1,8 +1,7 @@
 <?php
 
-$b = new Binomial();
-[$fact, $ifact] = $b->getBinomialInit_mod(5000000, 1000000007);
-echo $b->getBiomial_mod($fact, $ifact, 10, 2, 1000000007);
+[$fact, $ifact] = Binomial::getBinomialInit_mod(5000000, 1000000007);
+echo Binomial::getBiomial_mod($fact, $ifact, 10, 2, 1000000007);
 
 /**
  * 二項分布の関連のクラス
@@ -20,7 +19,7 @@ class Binomial {
      * $ifactorial・・階乗の逆元 
      *
      */
-    public function getBinomialInit_mod($n, $mod){
+    public static function getBinomialInit_mod($n, $mod){
         $factorial = [1,1];
         $ifactorial = [1,1];
         $inv = [1,1];
@@ -40,7 +39,7 @@ class Binomial {
      * @param Int $k nCkのk
      * @param Int $mod 余り
      */
-    public function getBiomial_mod($fact, $ifact, $n, $k, $mod){
+    public static function getBiomial_mod($fact, $ifact, $n, $k, $mod){
         if ($n < $k) return 0;
         if ($n < 0 || $k < 0) return 0;
         return $fact[$n] * ($ifact[$k] * $ifact[$n - $k] % $mod) % $mod;
