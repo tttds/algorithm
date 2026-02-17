@@ -12,7 +12,7 @@ class Mod {
      * @param $value 逆元を求めたい値
      * @param $mod   素数
      */
-    public function inverse($value, $mod) {
+    public static function inverse($value, $mod) {
         return intval(gmp_powm($value,$mod-2,$mod));
     }
 
