@@ -8,7 +8,7 @@ $mf->addEdge(2, 4, 6);
 $mf->addEdge(4, 3, 3);
 $mf->addEdge(3, 5, 5);
 $mf->addEdge(4, 5, 8);
-echo $mf->max_flow(1, 5);
+echo $mf->maxFlow(1, 5);
 echo PHP_EOL;
 
 $mf = new MaxFlow();
@@ -16,7 +16,7 @@ $mf->addEdge(1, 2, 4);
 $mf->addEdge(1, 3, 1);
 $mf->addEdge(2, 4, 2);
 $mf->addEdge(3, 4, 4);
-echo $mf->max_flow(1, 4);
+echo $mf->maxFlow(1, 4);
 echo PHP_EOL;
 
 $mf = new MaxFlow();
@@ -25,62 +25,208 @@ $mf->addEdge(1, 3, 1);
 $mf->addEdge(2, 3, 1);
 $mf->addEdge(2, 4, 2);
 $mf->addEdge(3, 4, 4);
-echo $mf->max_flow(1, 4);
+echo $mf->maxFlow(1, 4);
 echo PHP_EOL;
 
+
 class MaxFlow {
-
-    public $G = [];
-    public $used = [];
-
-    function addEdge($from, $to, $cap){
-        if(!isset($this->G[$from])) $this->G[$from] = [];
-        if(!isset($this->G[$to])) $this->G[$to] = [];
-        $this->G[$from][] = new Edge($to, $cap, count($this->G[$to]));
-        $this->G[$to][] = new Edge($from, 0, count($this->G[$from])-1);
-    }
-    
     /**
-     * 
+     * @var array<int, array<int, array>>
+     *
+     * Edge:
+     * [
+     *   'to'  => int,
+     *   'cap' => int,
+     *   'rev' => int,
+     * ]
      */
-    function max_flow($s, $t) {
-        $flow = 0;
-        while(true) {
-            $this->used = [];
-            $f = $this->dfs($s, $t, PHP_INT_MAX);
-            if($f == 0) return $flow;
-            $flow += $f;
-        }
+    private array $graph = [];
+
+    /**
+     * BFS用レベル
+     * @var array<int, int>
+     */
+    private array $level = [];
+
+    /**
+     * DFS探索位置
+     * @var array<int, int>
+     */
+    private array $iter = [];
+
+    /**
+     * 辺追加
+     */
+    public function addEdge(
+        int $from,
+        int $to,
+        int $capacity
+    ): void {
+
+        $this->initNode($from);
+        $this->initNode($to);
+
+        $forwardIndex = count($this->graph[$from]);
+        $reverseIndex = count($this->graph[$to]);
+
+        // 正辺
+        $this->graph[$from][] = [
+            'to'  => $to,
+            'cap' => $capacity,
+            'rev' => $reverseIndex,
+        ];
+
+        // 逆辺
+        $this->graph[$to][] = [
+            'to'  => $from,
+            'cap' => 0,
+            'rev' => $forwardIndex,
+        ];
     }
 
-    function dfs($v, $t, $f){
-        if($v == $t) return $f;
-        $this->used[$v] = true;
-        if(!isset($this->G[$v])) return 0;
-        for($i=0;$i<count($this->G[$v]);$i++){
-            $e =& $this->G[$v][$i];
-            if(!isset($this->used[$e->to]) && $e->cap > 0){
-                $d = $this->dfs($e->to, $t, min($f, $e->cap));
-                if($d > 0){
-                    $e->cap -= $d;
-                    $this->G[$e->to][$e->rev]->cap += $d;
-                    return $d;
-                }
+    /**
+     * 最大流
+     */
+    public function maxFlow(
+        int $source,
+        int $sink
+    ): int {
+
+        $flow = 0;
+
+        while (true) {
+
+            // レベルグラフ構築
+            $this->bfs($source);
+
+            // sinkに到達不可
+            if (!isset($this->level[$sink])) {
+                return $flow;
+            }
+
+            $this->iter = [];
+
+            while (true) {
+                $f = $this->dfs($source, $sink, PHP_INT_MAX);
+                if ($f === 0) break;
+                $flow += $f;
             }
         }
-        return 0;
-    }    
-}
+    }
 
-class Edge{
-    public $to;
-    public $cap;
-    public $rev;
-    function __construct($to, $cap, $rev){
-        $this->to = $to;
-        $this->cap = $cap;
-        $this->rev = $rev;
+    /**
+     * BFS
+     */
+    private function bfs(int $source): void
+    {
+        $this->level = [];
+
+        $queue = new SplQueue();
+
+        $this->level[$source] = 0;
+
+        $queue->enqueue($source);
+
+        while (!$queue->isEmpty()) {
+
+            $v = $queue->dequeue();
+
+            foreach ($this->graph[$v] as $edge) {
+
+                // 容量なし
+                if ($edge['cap'] <= 0) {
+                    continue;
+                }
+
+                // 訪問済み
+                if (isset($this->level[$edge['to']])) {
+                    continue;
+                }
+
+                $this->level[$edge['to']]
+                    = $this->level[$v] + 1;
+
+                $queue->enqueue($edge['to']);
+            }
+        }
+    }
+
+    /**
+     * DFS
+     */
+    private function dfs(
+        int $v,
+        int $sink,
+        int $flow
+    ): int {
+
+        if ($v === $sink) {
+            return $flow;
+        }
+
+        if (!isset($this->iter[$v])) {
+            $this->iter[$v] = 0;
+        }
+
+        $edgeCount = count($this->graph[$v]);
+
+        for (
+            ;
+            $this->iter[$v] < $edgeCount;
+            $this->iter[$v]++
+        ) {
+
+            $i = $this->iter[$v];
+
+            $edge = $this->graph[$v][$i];
+
+            // 容量なし
+            if ($edge['cap'] <= 0) {
+                continue;
+            }
+
+            // レベル条件
+            if (
+                !isset($this->level[$edge['to']]) ||
+                $this->level[$v]
+                    >= $this->level[$edge['to']]
+            ) {
+                continue;
+            }
+
+            $pushed = $this->dfs(
+                $edge['to'],
+                $sink,
+                min($flow, $edge['cap'])
+            );
+
+            if ($pushed <= 0) {
+                continue;
+            }
+
+            // 正辺更新
+            $this->graph[$v][$i]['cap']
+                -= $pushed;
+
+            // 逆辺更新
+            $rev = $edge['rev'];
+
+            $this->graph[$edge['to']][$rev]['cap']
+                += $pushed;
+
+            return $pushed;
+        }
+
+        return 0;
+    }
+
+    /**
+     * ノード初期化
+     */
+    private function initNode(int $node): void
+    {
+        if (!isset($this->graph[$node])) {
+            $this->graph[$node] = [];
+        }
     }
 }
-
-
