@@ -1,57 +1,14 @@
 <?php
 
-//-------- Test ---------
-// Sum
-$seg = new SegTree(5, function($x,$y){return $x+$y;}, 0);
-$seg->update(0, 1);
-$seg->update(1, 2);
-check($seg->query(0, 2), 3);
-check($seg->query(0, 6), 3);
-$seg->update(4, 5);
-check($seg->query(1, 6), 7);
-// Max
-$seg = new SegTree(5, function($x,$y){return max($x, $y);}, PHP_INT_MIN);
-$seg->update(0, 1);
-$seg->update(1, 2);
-check($seg->query(0, 2), 2);
-check($seg->query(0, 6), 2);
-$seg->update(4, 5);
-check($seg->query(1, 6), 5);
-// Min
-$seg = new SegTree(5, function($x,$y){return min($x, $y);}, PHP_INT_MAX);
-$seg->update(0, 1);
-$seg->update(1, 2);
-check($seg->query(0, 2), 1);
-check($seg->query(0, 6), 1);
-$seg->update(4, -10);
-check($seg->query(1, 6), -10);
-// Or
-$seg = new SegTree(5, function($x,$y){return $x | $y;}, 0);
-$seg->update(0, 1);
-$seg->update(1, 2);
-check($seg->query(0, 2), 3);
-check($seg->query(1, 6), 2);
-$seg->update(4, 10);
-check($seg->query(0, 6), 11);
-
-function check($a, $b, $isSame = true){
-    global $count;
-    if(!isset($count)) $count = 0;
-    else $count++;
-    echo $count." ";
-    if($a === $b && $isSame) echo "OK";
-    else if($a !== $b && !$isSame) echo "OK";
-    else echo "NG ". $a." ".$b;
-    echo PHP_EOL;
-}
-//-------- Test ---------
-
-class SegTree {
+/**
+ * 左右が可換でない場合はこのSegTreeを使うこと
+ * つまり、op($a, $b) ≠ op($b, $a)の場合
+ */
+class SegTreeCommutative {
 
     private $N = 1;
     private $tree = null;
     private $e = 0;
-    private $hierarchy = 0;
     private $op = null;
 
     function op($x, $y){
@@ -77,9 +34,11 @@ class SegTree {
         $tree =& $this->tree;
         $tree[$x] = $value;
         while($x){
-            $xnext = $x>>1;
-            $tree[$xnext] = $this->op($tree[$x], $tree[$x^1]);
             $x>>=1;
+            $tree[$x] = $this->op(
+                $tree[$x<<1],
+                $tree[$x<<1|1]
+            );
         }
     }
     // $l番目から$r-1番目までの和を取得する
@@ -87,19 +46,21 @@ class SegTree {
     function query($l, $r){
         $l+=$this->N;
         $r+=$this->N;
-        $ans = $this->e;
+        $left = $this->e;
+        $right = $this->e;
         $tree =& $this->tree;
         while($l < $r){
             if($l & 1){
-                $ans = $this->op($ans, $tree[$l]);
+                $left = $this->op($left, $tree[$l]);
                 ++$l;
             }
             if($r & 1){
-                $ans = $this->op($ans, $tree[$r-1]);
+                --$r;
+                $right = $this->op($tree[$r], $right);
             }
             $l>>=1;
             $r>>=1;
         }
-        return $ans;
+        return $this->op($left, $right);
     }
 }
