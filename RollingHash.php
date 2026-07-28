@@ -1,75 +1,111 @@
 <?php
 
-$s = "ababcdabcd";
-$rh = new RollingHash($s);
-// abとab
-check($rh->get(0, 2), $rh->get(2, 4));
-// baとbab
-check($rh->get(1, 3), $rh->get(1, 4), false);
-// ababとabcd
-check($rh->get(0, 4), $rh->get(2, 6), false);
-// abcdとabcd
-check($rh->get(2, 6), $rh->get(6, 10));
-
-function check($a, $b, $isSame = true){
-    if($a === $b && $isSame) echo "OK";
-    else if($a !== $b && !$isSame) echo "OK";
-    else echo "NG ". $a." ".$b;
-    echo PHP_EOL;
-}
-
 /**
- * ローリングハッシュ
+ * ダブルローリングハッシュ
  */
 class RollingHash {
 
-    private $b;
-    private $mod;
-    private $s = [];
-    private $n;
-    private $power = [];
-    private $hash = [];
+    private int $base;
 
-    /**
-     * コンストラクタ
-     * @param $s 対象の文字列（英小文字）
-     * @param $b 基数
-     * @param $mod 法
-     */
-    public function __construct(&$s, $b=18743, $mod=212341513){
-        $this->b = $b;
-        $this->mod = $mod;
-        $this->s =& $s;
-        $this->n = $n = strlen($s);
-        // power
-        $power =& $this->power;
-        $power[0] = 1;
-        for($i=0;$i<$n;++$i){
-            $power[$i+1] = ($power[$i] * $b) % $mod;
-        }
-        // hash
-        $hash =& $this->hash;
-        $hash[0] = 0;
-        for($i=0;$i<$n;++$i){
-            $hash[$i+1] = ($hash[$i] * $b + ord($s[$i])) % $mod;
+    private int $mod1 = 2147483647; // 2^31-1
+    private int $mod2 = 1000000007;
+
+    private string $s;
+    private int $n;
+
+    private array $pow1 = [];
+    private array $pow2 = [];
+
+    private array $hash1 = [];
+    private array $hash2 = [];
+
+    public function __construct(string $s, int $base = 911382323)
+    {
+        $this->base = $base;
+        $this->s = $s;
+        $this->n = strlen($s);
+
+        $this->pow1[0] = 1;
+        $this->pow2[0] = 1;
+
+        $this->hash1[0] = 0;
+        $this->hash2[0] = 0;
+
+        for ($i = 0; $i < $this->n; $i++) {
+
+            $this->pow1[$i + 1] = ($this->pow1[$i] * $base) % $this->mod1;
+            $this->pow2[$i + 1] = ($this->pow2[$i] * $base) % $this->mod2;
+
+            $c = ord($s[$i]);
+
+            $this->hash1[$i + 1] = ($this->hash1[$i] * $base + $c) % $this->mod1;
+            $this->hash2[$i + 1] = ($this->hash2[$i] * $base + $c) % $this->mod2;
         }
     }
 
     /**
-     * 文字列Sの$l～$r-1のハッシュ値を求める
-     * ※ 0-indexed
-     * 例：
-     * S="abcedf"の場合、
-     * get(0,2) = "ab"のハッシュ値
-     * get(3,6) = "ced"のハッシュ値
-     * 
-     * @param $l 
-     * @param $r 
-     * @return Int ハッシュ値
+     * [l,r) のハッシュ値を返す
+     *
+     * @return array [hash1, hash2]
      */
-    public function get($l,$r){
-        $hash = $this->hash[$r] - ($this->hash[$l] * $this->power[$r - $l] % $this->mod);
-        if ($hash < 0) $hash += $this->mod;
-        return $hash;
+    public function get(int $l, int $r): array
+    {
+        $x1 = $this->hash1[$r]
+            - ($this->hash1[$l] * $this->pow1[$r - $l]) % $this->mod1;
+
+        if ($x1 < 0) {
+            $x1 += $this->mod1;
+        }
+
+        $x2 = $this->hash2[$r]
+            - ($this->hash2[$l] * $this->pow2[$r - $l]) % $this->mod2;
+
+        if ($x2 < 0) {
+            $x2 += $this->mod2;
+        }
+
+        return [$x1, $x2];
+    }
+
+    /**
+     * ハッシュ同士を比較
+     */
+    public static function equals(array $a, array $b): bool
+    {
+        return $a[0] === $b[0] && $a[1] === $b[1];
+    }
+
+    /**
+     * ハッシュを連結する
+     *
+     * H(A+B) = H(A) * BASE^{|B|} + H(B)
+     *
+     * @param array $left       左側文字列のハッシュ [hash1, hash2]
+     * @param int   $rightLength 右側文字列の長さ
+     * @param array $right      右側文字列のハッシュ [hash1, hash2]
+     *
+     * @return array [hash1, hash2]
+     */
+    public function concat(array $left, int $rightLength, array $right): array
+    {
+        $h1 = (
+            ($left[0] * $this->pow1[$rightLength]) % $this->mod1
+            + $right[0]
+        ) % $this->mod1;
+
+        $h2 = (
+            ($left[1] * $this->pow2[$rightLength]) % $this->mod2
+            + $right[1]
+        ) % $this->mod2;
+
+        return [$h1, $h2];
+    }
+
+    /**
+     * 文字列長
+     */
+    public function length(): int
+    {
+        return $this->n;
     }
 }
