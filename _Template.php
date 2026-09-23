@@ -1448,6 +1448,68 @@ class Trie {
     }
 
     /**
+     * 単語をTrieから1件削除するメソッド
+     *
+     * @param string $word 削除する単語
+     * @return bool 単語が存在して削除できた場合はtrue、存在しない場合はfalse
+     */
+    public function delete($word) {
+        $node = $this->root;
+        $length = strlen($word);
+
+        // 削除対象の単語までの経路を保存する
+        $path = [];
+
+        for ($i = 0; $i < $length; $i++) {
+            $char = $word[$i];
+
+            if (!isset($node->children[$char])) {
+                return false;
+            }
+
+            // 現在のノードと文字を保存
+            $path[] = [$node, $char];
+
+            $node = $node->children[$char];
+        }
+
+        // その単語が存在しない場合
+        if ($node->count <= 0) {
+            return false;
+        }
+
+        // 単語の出現回数を1減らす
+        $node->count--;
+        $this->totalWordCount--;
+
+        /*
+        * 不要になったノードを後ろから削除する。
+        *
+        * 例えば
+        *   cat
+        *   car
+        *
+        * が登録されていて cat を削除した場合、
+        * c -> a -> t
+        * の t だけ削除する。
+        */
+        for ($i = count($path) - 1; $i >= 0; $i--) {
+            [$parent, $char] = $path[$i];
+            $child = $parent->children[$char];
+
+            // 子ノードに単語がなく、さらに子ノードもない場合は不要
+            if ($child->count === 0 && empty($child->children)) {
+                unset($parent->children[$char]);
+            } else {
+                // これ以上上のノードを削除する必要はない
+                break;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * 単語がTrieに存在するか検索するメソッド
      *
      * @param string $word 検索する単語
