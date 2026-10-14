@@ -4,6 +4,7 @@
  * ダブルローリングハッシュ
  */
 class RollingHash {
+    // https://github.com/tttds/algorithm.git
 
     private int $base;
 

@@ -34,6 +34,7 @@ echo $bt->lower_bound(6);
 echo $bt->lower_bound(7);
 
 class BinaryTrie {
+    // https://github.com/tttds/algorithm.git
     public $n = 0;
     public $bitlen = 0;
     public $id = 0;

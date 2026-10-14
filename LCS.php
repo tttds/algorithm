@@ -13,6 +13,7 @@ echo lcs($s,$t);
  * $sと$tの長さは違ってもOK
  */
 function lcs($s, $t){
+    // https://github.com/tttds/algorithm.git
     $m=strlen($s);
     $n=strlen($t);
 

@@ -2,6 +2,7 @@
 
 // 線分abと線分cdが交差しているかどうかを判定
 function isCrossing($ax, $ay, $bx, $by, $cx, $cy, $dx, $dy, $isValidEndpoint=false) {
+  // https://github.com/tttds/algorithm.git
   $ta = ($cx - $dx) * ($ay - $cy) + ($cy - $dy) * ($cx - $ax);
   $tb = ($cx - $dx) * ($by - $cy) + ($cy - $dy) * ($cx - $bx);
   $tc = ($ax - $bx) * ($cy - $ay) + ($ay - $by) * ($ax - $cx);
@@ -83,6 +84,7 @@ echo PHP_EOL;
 // ＊＊＊注意＊＊＊
 // 戻り値は浮動小数点誤差を含む
 function degreeOrRadianFrom3Points($x1,$y1,$x2,$y2,$x3,$y3,$isRadian=false){
+  // https://github.com/tttds/algorithm.git
   $ax = $x1-$x2;
   $ay = $y1-$y2;
   $cx = $x3-$x2;
@@ -103,6 +105,7 @@ function degreeOrRadianFrom3Points($x1,$y1,$x2,$y2,$x3,$y3,$isRadian=false){
 
 // X, Y座標を原点を中心に回転する（反時計回り）
 function rotate2d($radian, $x, $y){
+  // https://github.com/tttds/algorithm.git
   $nsin = sin($radian);
   $ncos = cos($radian);
   $retX = $ncos * $x - $nsin * $y;
@@ -115,6 +118,7 @@ function rotate2d($radian, $x, $y){
  * 
  */
 function distanctCrossPoint($x1, $y1, $x2, $y2, $x3, $y3){
+  // https://github.com/tttds/algorithm.git
   [$x, $y] = crossPoint($x1, $y1, $x2, $y2, $x3, $y3);
   $dx = $x3 - $x;
   $dy = $y3 - $y;
@@ -126,6 +130,7 @@ function distanctCrossPoint($x1, $y1, $x2, $y2, $x3, $y3){
  * 点1と点2を通る直線と点3からの垂線の足の座標を求める
  */
 function crossPoint($x1, $y1, $x2, $y2, $x3, $y3){
+  // https://github.com/tttds/algorithm.git
   [$a,$b,$c] = coefficientStraightLine($x1,$y1,$x2,$y2);
   $p = ($a*$a + $b*$b);
   $q = ($a*$b*$x3 - $a*$a*$y3 + $b*$c);
@@ -142,6 +147,7 @@ function crossPoint($x1, $y1, $x2, $y2, $x3, $y3){
  * のa, b, cを返す
  */
 function coefficientStraightLine($x1,$y1,$x2,$y2){
+  // https://github.com/tttds/algorithm.git
   $dx = $x2 - $x1;
   $dy = $y2 - $y1;
   return [$dy, -$dx, $dx*$y1 - $dy*$x1];

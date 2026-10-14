@@ -1,5 +1,6 @@
 <?php
 class Matrix {
+    // https://github.com/tttds/algorithm.git
     public int $n;
     public int $mod;
     public array $a;

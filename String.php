@@ -11,6 +11,7 @@ echo strswap("abcdefg", 5, 6).PHP_EOL;
 echo strswap("abcdefg", 6, 6).PHP_EOL;
 
 function strswap($s, $i, $j){
+    // https://github.com/tttds/algorithm.git
     if($i == $j) return $s;
     $n = strlen($s);
     if($i > $j) [$i, $j] = [$j, $i];

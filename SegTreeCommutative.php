@@ -5,6 +5,7 @@
  * つまり、op($a, $b) ≠ op($b, $a)の場合
  */
 class SegTreeCommutative {
+    // https://github.com/tttds/algorithm.git
 
     private $N = 1;
     private $tree = null;

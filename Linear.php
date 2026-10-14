@@ -7,6 +7,7 @@
  * @return array|null ['X' => float, 'Y' => float] or null（解なし・無限解）
  */
 function solveLinear2($a1, $b1, $c1, $a2, $b2, $c2) {
+    // https://github.com/tttds/algorithm.git
     $D = $a1 * $b2 - $a2 * $b1;
 
     // 行列式が0 → 解なし or 無限解

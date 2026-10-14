@@ -8,6 +8,7 @@ long long dp[2000000][20];
 long long mincost[20][20];
  
 void init(long cnt){
+    // https://github.com/tttds/algorithm.git
     n = cnt;
     long bit = 1<<n;
     for(long i = 0; i < 2000000; i++){
@@ -23,10 +24,12 @@ void init(long cnt){
 }
  
 void setCost(int from, int to, long long cost){
+    // https://github.com/tttds/algorithm.git
     mincost[from][to] = cost;
 }
  
 void calc(){
+    // https://github.com/tttds/algorithm.git
     for(int i = 0; i < n; i++){
         dp[1<<i][i] = 0;
     }
@@ -50,6 +53,7 @@ void calc(){
 }
  
 long long getAns(int goal){
+    // https://github.com/tttds/algorithm.git
     long long ans = INF;
     long all = (1<<n) - 1;
     if(goal == -1){

@@ -4,6 +4,7 @@
  * UnionFind
  */
 class UnionFind {
+    // https://github.com/tttds/algorithm.git
     private $d = [];
     private $ccc;
     private $r = [];

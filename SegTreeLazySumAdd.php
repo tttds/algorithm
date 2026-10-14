@@ -4,6 +4,7 @@
  * 遅延セグメント木（区間加算・区間和）
  */
 class SegTreeLazySumAdd {
+    // https://github.com/tttds/algorithm.git
 
     private $tree = [];
     private $lazy = [];

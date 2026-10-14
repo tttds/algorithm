@@ -1,6 +1,7 @@
 <?php
 
 class Combination {
+    // https://github.com/tttds/algorithm.git
     private $ptn = [];
     /**
      * @param Int $n nCmのnの部分

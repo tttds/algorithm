@@ -15,6 +15,7 @@
 //}
 
 function isqrt(int $n): int {
+    // https://github.com/tttds/algorithm.git
     if ($n < 0) {
         throw new InvalidArgumentException("n must be non-negative");
     }
@@ -25,6 +26,7 @@ function isqrt(int $n): int {
 }
 
 function cnt(&$a){
+    // https://github.com/tttds/algorithm.git
     $n = count($a);
     $cnt = [];
     for($i=0;$i<$n;$i++){
@@ -38,6 +40,7 @@ function cnt(&$a){
  * 二分探索木
  */
 class BinaryTree {
+    // https://github.com/tttds/algorithm.git
  
     private $root;
 
@@ -305,6 +308,7 @@ class BinaryTree {
  * 二項分布の関連のクラス
  */
 class Binomial {
+    // https://github.com/tttds/algorithm.git
 
     /**
      * 二項係数の元を求める
@@ -348,6 +352,7 @@ class Binomial {
  * Binary Indexed Tree
  */
 class BIT{
+    // https://github.com/tttds/algorithm.git
     
     public $n;
     public $bit;
@@ -384,6 +389,7 @@ class BIT{
 
 
 class BoundSearch {
+    // https://github.com/tttds/algorithm.git
     // $arrayの中で$xより小さい値を持つ最初の位置を返す
     // 存在しない場合は-1
     // $arrayは昇順にソートされている前提
@@ -469,6 +475,7 @@ class BoundSearch {
 
 
 class Combination {
+    // https://github.com/tttds/algorithm.git
     private $ptn = [];
     /**
      * @param Int $n nCmのnの部分
@@ -555,6 +562,7 @@ class Combination {
  * グラフのサイクルに関するクラス
  */
 class CycleDetection {
+    // https://github.com/tttds/algorithm.git
 
     private $route = null;
     private $n = 0;
@@ -601,6 +609,7 @@ class CycleDetection {
  * ダイクストラ
  */
 class Dijkstra {
+    // https://github.com/tttds/algorithm.git
 
     public $route;
     public $cheapest;
@@ -663,6 +672,7 @@ class Dijkstra {
 
 
 class Doubling {
+    // https://github.com/tttds/algorithm.git
 
     private $doubling = null;
 
@@ -723,6 +733,7 @@ class Doubling {
  * $value = [分子, 分母];
  */
 class FractionMaxPriorityQueue extends SplPriorityQueue {
+    // https://github.com/tttds/algorithm.git
     public function compare($p1, $p2) {
         if ($p1[0]*$p2[1] === $p1[1]*$p2[0]) return 0;
         return $p1[0]*$p2[1] > $p1[1]*$p2[0] ? 1 : -1;
@@ -735,6 +746,7 @@ class FractionMaxPriorityQueue extends SplPriorityQueue {
  * $value = [分子, 分母];
  */
 class FractionMinPriorityQueue extends SplPriorityQueue {
+    // https://github.com/tttds/algorithm.git
     public function compare($p1, $p2) {
         if ($p1[0]*$p2[1] === $p1[1]*$p2[0]) return 0;
         return $p1[0]*$p2[1] < $p1[1]*$p2[0] ? 1 : -1;
@@ -742,6 +754,7 @@ class FractionMinPriorityQueue extends SplPriorityQueue {
 }
 
 class Mod {
+    // https://github.com/tttds/algorithm.git
     /**
      * mod Pの世界で逆元を求める
      * フェルマーの小定理を使う
@@ -759,6 +772,7 @@ class Mod {
 }
 
 class Permutation {
+    // https://github.com/tttds/algorithm.git
 
     private $permu = [];
 
@@ -921,6 +935,7 @@ class Permutation {
 // 返り値    $ret = [2, 2, 3, 3, 1, 1];
 //-----------------------------------
 function press(&$a){
+    // https://github.com/tttds/algorithm.git
     // キーを保持したまま昇順にソート
     asort($a);
     $an = [];
@@ -951,6 +966,7 @@ function press(&$a){
  * 素数についてのクラス
  */
 class PrimeNumber {
+    // https://github.com/tttds/algorithm.git
 
     /**
      * $n について素因数分解をする
@@ -1088,6 +1104,7 @@ class PrimeNumber {
  * ダブルローリングハッシュ
  */
 class RollingHash {
+    // https://github.com/tttds/algorithm.git
 
     private int $base;
 
@@ -1196,6 +1213,7 @@ class RollingHash {
 
 
 class SegTree {
+    // https://github.com/tttds/algorithm.git
 
     private $N = 1;
     private $tree = null;
@@ -1259,6 +1277,7 @@ class SegTree {
  * 値は 1 ～ n を扱う（それ以上は座圧してから使う）
  */
 class SetBIT {
+    // https://github.com/tttds/algorithm.git
 
     private int $n;
     private array $bit;
@@ -1383,6 +1402,7 @@ class SetBIT {
 
 
 class Trie {
+    // https://github.com/tttds/algorithm.git
     /**
      * @var object Trieのルートノード
      */
@@ -1582,6 +1602,7 @@ class Trie {
  * UnionFind
  */
 class UnionFind {
+    // https://github.com/tttds/algorithm.git
     private $d = [];
     private $ccc;
     private $r = [];

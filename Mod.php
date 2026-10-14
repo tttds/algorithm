@@ -2,6 +2,7 @@
 
 
 class Mod {
+    // https://github.com/tttds/algorithm.git
     /**
      * mod Pの世界で逆元を求める
      * フェルマーの小定理を使う

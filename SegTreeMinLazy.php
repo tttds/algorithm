@@ -58,6 +58,7 @@
   // $i番目の値を$valueで更新する
   // $iは1から始まる
   function update($i, $value){
+    // https://github.com/tttds/algorithm.git
     global $tree, $N;
     $i = $N + $i - 2;
     $tree[$i] = $value;
@@ -69,11 +70,13 @@
   }
   // $start番目から$end番目までの最小値を取得する
   function query($start, $end){
+    // https://github.com/tttds/algorithm.git
     global $N;
     return sub_query($start-1, $end, 0, 0, $N);
   }
 
   function sub_query($a, $b, $k, $l, $r){
+    // https://github.com/tttds/algorithm.git
     global $tree;
     reflect($k,$l,$r);
     if($b <= $l || $r <= $a) return PHP_INT_MAX;
@@ -87,11 +90,13 @@
   }
 
   function add($start, $end, $x){
+    // https://github.com/tttds/algorithm.git
     global $N;
     return sub_add($start-1, $end, $x, 0, 0, $N);
   }
 
   function sub_add($a, $b, $v, $k, $l, $r){
+    // https://github.com/tttds/algorithm.git
     global $tree, $lazy;
     //reflect($k,$l,$r);
     if($b <= $l || $r <= $a) return;
@@ -109,6 +114,7 @@
   }
  
   function reflect($k,$l,$r){
+    // https://github.com/tttds/algorithm.git
     global $tree, $lazy;
     if($lazy[$k] != 0){
       $tree[$k] += $lazy[$k];

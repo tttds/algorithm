@@ -6,6 +6,7 @@
  * @param $matrix 3x3の同次座標
  */
 function affineScale($scaleX, $scaleY, $matrix = [[1,0,0],[0,1,0],[0,0,1]]) {
+    // https://github.com/tttds/algorithm.git
 
     // matrixが3x3の行列であることをチェック
     if(count($matrix) != 3) throw new Exception();
@@ -24,6 +25,7 @@ function affineScale($scaleX, $scaleY, $matrix = [[1,0,0],[0,1,0],[0,0,1]]) {
  * @param $matrix 3x3の同次座標
  */
 function affineMove($moveX, $moveY, $matrix = [[1,0,0],[0,1,0],[0,0,1]]) {
+    // https://github.com/tttds/algorithm.git
 
     // matrixが3x3の行列であることをチェック
     if(count($matrix) != 3) throw new Exception();
@@ -41,6 +43,7 @@ function affineMove($moveX, $moveY, $matrix = [[1,0,0],[0,1,0],[0,0,1]]) {
  * @param $matrix 3x3の同次座標
  */
 function affineRotate($degree, $matrix = [[1,0,0],[0,1,0],[0,0,1]]) {
+    // https://github.com/tttds/algorithm.git
 
     // matrixが3x3の行列であることをチェック
     if(count($matrix) != 3) throw new Exception();
@@ -60,6 +63,7 @@ function affineRotate($degree, $matrix = [[1,0,0],[0,1,0],[0,0,1]]) {
  * 
  */
 function matrix_multi($a,$b){
+    // https://github.com/tttds/algorithm.git
     if(count($a[0])!=count($b)){
         return FALSE;
     }

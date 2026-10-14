@@ -33,6 +33,7 @@
   // $i番目の値を$valueで更新する
   // $iは1から始まる
   function update($i, $value){
+    // https://github.com/tttds/algorithm.git
     global $tree, $N;
     $i = $N + $i - 2;
     $tree[$i] = $value;
@@ -44,6 +45,7 @@
   }
   // $order番目に小さい値を取得する
   function find($order){
+    // https://github.com/tttds/algorithm.git
     global $N;
     [$isSuccess, $value] = sub_query($order, 0, 0, $N);
     if($isSuccess) return $value;
@@ -51,6 +53,7 @@
   }
 
   function sub_query($order, $k, $l, $r){
+    // https://github.com/tttds/algorithm.git
     global $tree, $N;
     //echo $order." ".$k." ".$l." ".$r.PHP_EOL;
     if($tree[$k] < $order){

@@ -1,6 +1,7 @@
 <?php
 
 class Doubling {
+    // https://github.com/tttds/algorithm.git
 
     private $doubling = null;
 

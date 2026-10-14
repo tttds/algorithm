@@ -24,6 +24,7 @@
 
 
   class UnionFindWeight {
+    // https://github.com/tttds/algorithm.git
     public $d = [];
     public $diffWeight = [];
     function __construct($n){

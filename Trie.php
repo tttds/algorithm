@@ -1,6 +1,7 @@
 <?php
 
 class Trie {
+    // https://github.com/tttds/algorithm.git
     /**
      * @var object Trieのルートノード
      */

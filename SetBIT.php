@@ -51,6 +51,7 @@ echo $set->leMax(149) == 12 ? "OK" : "NG"; echo PHP_EOL;
  * 値は 1 ～ n を扱う（それ以上は座圧してから使う）
  */
 class SetBIT {
+    // https://github.com/tttds/algorithm.git
 
     private int $n;
     private array $bit;

@@ -47,6 +47,7 @@ function check($a, $b, $isSame = true){
 //-------- Test ---------
 
 class SegTree {
+    // https://github.com/tttds/algorithm.git
 
     private $N = 1;
     private $tree = null;

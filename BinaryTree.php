@@ -132,6 +132,7 @@ echo $test->min() === 2 ? "OK" : "NG";
  * 二分探索木
  */
 class BinaryTree {
+    // https://github.com/tttds/algorithm.git
  
     private $root;
 

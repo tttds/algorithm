@@ -1,10 +1,12 @@
 <?php
 
 function suffix_array($s, $upper = null): array {
+    // https://github.com/tttds/algorithm.git
     return _sa_is(array_map('ord', str_split($s)), 255);
 }
 
 function _sa_is(array $s, int $upper): array {
+    // https://github.com/tttds/algorithm.git
 
     $n = count($s);
     if ($n === 0) return [];
@@ -109,6 +111,7 @@ function _sa_is(array $s, int $upper): array {
 }
 
 function _sa_naive(array $s): array {
+    // https://github.com/tttds/algorithm.git
     $sa = range(0, count($s) - 1);
     usort($sa, function ($i, $j) use ($s) {
         return strcmp(implode('', array_slice($s, $i)), implode('', array_slice($s, $j)));
@@ -117,6 +120,7 @@ function _sa_naive(array $s): array {
 }
 
 function _sa_doubling(array $s): array {
+    // https://github.com/tttds/algorithm.git
     $n = count($s);
     $sa = range(0, $n - 1);
     $rnk = $s;
@@ -143,6 +147,7 @@ function _sa_doubling(array $s): array {
 }
 
 function induce(&$sa, array $s, array $ls, array $sum_l, array $sum_s, array $lms) {
+    // https://github.com/tttds/algorithm.git
 
     $n = count($s);
     $sa = array_fill(0, $n, -1);

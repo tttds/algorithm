@@ -1,6 +1,7 @@
 <?php
 
 class BoundSearch {
+    // https://github.com/tttds/algorithm.git
     // $arrayの中で$xより小さい値を持つ最初の位置を返す
     // 存在しない場合は-1
     // $arrayは昇順にソートされている前提

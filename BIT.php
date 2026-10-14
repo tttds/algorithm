@@ -14,6 +14,7 @@ echo PHP_EOL;
  * Binary Indexed Tree
  */
 class BIT{
+    // https://github.com/tttds/algorithm.git
     
     public $n;
     public $bit;

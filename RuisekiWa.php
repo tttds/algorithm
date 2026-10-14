@@ -17,6 +17,7 @@
  * 
  */
 function ruiseki_wa2d(&$a,$h,$w){
+    // https://github.com/tttds/algorithm.git
     $ret[0] = array_fill(0, $w+1, 0);
     for($i=0;$i<$h;$i++){
         $sum = [0];

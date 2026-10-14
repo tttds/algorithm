@@ -37,6 +37,7 @@ var_dump($d->cheapest);
  * ダイクストラ
  */
 class Dijkstra {
+    // https://github.com/tttds/algorithm.git
 
     public $route;
     public $cheapest;

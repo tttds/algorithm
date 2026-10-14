@@ -1,6 +1,7 @@
 <?php
  
 class Node {
+  // https://github.com/tttds/algorithm.git
   public $data;
   public $leftNode;
   public $rightNode;
@@ -12,6 +13,7 @@ class Node {
 }
  
 class BinaryTree {
+  // https://github.com/tttds/algorithm.git
  
   private $root;
  

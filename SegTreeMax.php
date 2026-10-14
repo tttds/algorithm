@@ -1,6 +1,7 @@
 <?php
 
 class SegTree {
+    // https://github.com/tttds/algorithm.git
 
     private $N = 1;
     private $tree = null;

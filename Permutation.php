@@ -1,6 +1,7 @@
 <?php
 
 class Permutation {
+    // https://github.com/tttds/algorithm.git
 
     private $permu = [];
 

@@ -4,6 +4,7 @@
  * グラフのサイクルに関するクラス
  */
 class CycleDetection {
+    // https://github.com/tttds/algorithm.git
 
     private $route = null;
     private $n = 0;

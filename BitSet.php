@@ -43,6 +43,7 @@ echo $bs1->get(101); //1
  * BitSet
  */
 class BitSet {
+    // https://github.com/tttds/algorithm.git
     private $num = [];
     private $index = [];
     private $bit = [];

@@ -4,6 +4,7 @@
  * 遅延セグメント木（最大値・区間更新）
  */
 class SegTreeLazyMaxUpdate {
+    // https://github.com/tttds/algorithm.git
     private $tree = [];
     private $lazy = [];
     private $size;

@@ -7,6 +7,7 @@ echo Binomial::getBiomial_mod($fact, $ifact, 10, 2, 1000000007);
  * 二項分布の関連のクラス
  */
 class Binomial {
+    // https://github.com/tttds/algorithm.git
 
     /**
      * 二項係数の元を求める

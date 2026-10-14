@@ -6,6 +6,7 @@
 
     // (x3,y3)から(x1,y1)と(x2,y2)を通る直線への距離
     function d3point($x1,$y1,$x2,$y2,$x3,$y3){
+        // https://github.com/tttds/algorithm.git
         // (x1,y1)と(x2,y2)を通る直線の方程式
         // ax + by + c = 0
         // のa,b,cを求める

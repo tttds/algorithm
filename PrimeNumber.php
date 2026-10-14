@@ -4,6 +4,7 @@
  * 素数についてのクラス
  */
 class PrimeNumber {
+    // https://github.com/tttds/algorithm.git
 
     /**
      * $n について素因数分解をする

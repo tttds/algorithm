@@ -43,6 +43,7 @@ echo PHP_EOL;
 // 返り値    $ret = [2, 2, 3, 3, 1, 1];
 //-----------------------------------
 function press(&$a){
+    // https://github.com/tttds/algorithm.git
     // キーを保持したまま昇順にソート
     asort($a);
     $an = [];
